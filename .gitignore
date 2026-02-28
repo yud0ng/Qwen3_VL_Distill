@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+models/
+results/
+data/images/
+data/train.json
+data/val.json
+data/test.json
+data/sanity.json
