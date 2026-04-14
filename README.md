@@ -2,13 +2,9 @@
 
 **Vector Robotics · Qwen3-VL Knowledge Distillation Project**
 
-| Field | Detail |
-|-------|--------|
+
 | Model | `Qwen3-VL-32B-Instruct` |
-| Eval Framework | lmms-eval (unknown@unknown) |
-| Date | 2026-04-14 |
-| Eval Time | ~91 min (5466 sec) |
-| Hardware | PSC (`/ocean/projects/cis220039p/yluo22/`) |
+
 
 ---
 
@@ -52,18 +48,6 @@
 
 > Recovery% = (Distilled − Original) / (Teacher − Original) × 100
 
----
-
-## Eval Command
-
-```bash
-python -m lmms_eval \
-  --model qwen3_vl \
-  --model_args "pretrained=/ocean/projects/cis220039p/yluo22/models/qwen3-vl-32b" \
-  --tasks mmstar,mme,cv_bench \
-  --batch_size 1 \
-  --output_path /ocean/projects/cis220039p/yluo22/logs/32b/
-```
 
 ---
 
