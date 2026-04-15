@@ -1,0 +1,11 @@
+# Variant A — Response SFT（仅 CE）
+train_jsonl: "data/sample_train.jsonl"
+out_dir: "runs/variant_a_yaml"
+variant: A
+student_model_id: Qwen/Qwen3-VL-2B-Instruct
+lam1: 1.0
+lam3: 0.0
+lora_r: 64
+lora_alpha: 128
+lr: 2.0e-5
+bf16: true

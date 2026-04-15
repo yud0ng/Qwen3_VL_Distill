@@ -1,0 +1,396 @@
+{
+  "results": {
+    "cv_bench": {
+      "alias": "cv_bench",
+      "cv_bench_acc,none": 0.8817285822592873,
+      "cv_bench_acc_stderr,none": "N/A",
+      "cv_bench_acc_stderr_clt,none": "N/A",
+      "cv_bench_acc_stderr_clustered,none": "N/A"
+    },
+    "mme": {
+      "alias": "mme",
+      "mme_cognition_score,none": 688.5714285714286,
+      "mme_cognition_score_stderr,none": "N/A",
+      "mme_cognition_score_stderr_clt,none": 0.01895555971024408,
+      "mme_cognition_score_stderr_clustered,none": "N/A",
+      "mme_perception_score,none": 1787.9432773109243,
+      "mme_perception_score_stderr,none": "N/A",
+      "mme_perception_score_stderr_clt,none": 0.006295062720754826,
+      "mme_perception_score_stderr_clustered,none": "N/A"
+    },
+    "mmstar": {
+      "alias": "mmstar",
+      "coarse perception,none": 0.7688377358933295,
+      "coarse perception_stderr,none": "N/A",
+      "coarse perception_stderr_clt,none": 0.02721799546455311,
+      "coarse perception_stderr_clustered,none": "N/A",
+      "average,none": 0.7073851568405253,
+      "average_stderr,none": "N/A",
+      "average_stderr_clt,none": 0.011858516613705036,
+      "average_stderr_clustered,none": "N/A",
+      "fine-grained perception,none": 0.6830262834684353,
+      "fine-grained perception_stderr,none": "N/A",
+      "fine-grained perception_stderr_clt,none": 0.03018656846451167,
+      "fine-grained perception_stderr_clustered,none": "N/A",
+      "instance reasoning,none": 0.7981305137883609,
+      "instance reasoning_stderr,none": "N/A",
+      "instance reasoning_stderr_clt,none": 0.025721398901416368,
+      "instance reasoning_stderr_clustered,none": "N/A",
+      "logical reasoning,none": 0.7378237823782379,
+      "logical reasoning_stderr,none": "N/A",
+      "logical reasoning_stderr_clt,none": 0.02706529365223898,
+      "logical reasoning_stderr_clustered,none": "N/A",
+      "math,none": 0.6215361311592266,
+      "math_stderr,none": "N/A",
+      "math_stderr_clt,none": 0.030760116042626098,
+      "math_stderr_clustered,none": "N/A",
+      "science & technology,none": 0.634956494355562,
+      "science & technology_stderr,none": "N/A",
+      "science & technology_stderr_clt,none": 0.030938207620401226,
+      "science & technology_stderr_clustered,none": "N/A"
+    }
+  },
+  "group_subtasks": {
+    "cv_bench": [],
+    "mme": [],
+    "mmstar": []
+  },
+  "configs": {
+    "cv_bench": {
+      "task": "cv_bench",
+      "dataset_path": "/ocean/projects/cis220039p/yluo22/datasets/CV-Bench",
+      "dataset_name": "default",
+      "test_split": "test",
+      "full_docs": false,
+      "process_results_use_image": false,
+      "doc_to_visual": "<function cv_bench_doc_to_visual at 0x150b87d22d40>",
+      "doc_to_text": "<function cv_bench_doc_to_text at 0x150b87d23060>",
+      "doc_to_target": "answer",
+      "process_results": "<function cv_bench_process_results at 0x150b87d35620>",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "cv_bench_acc",
+          "aggregation": "<function cv_bench_aggregate_results at 0x150b87d365c0>",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "max_new_tokens": 1024,
+        "until": [
+          "\n\n"
+        ]
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "score_key": "score",
+      "lmms_eval_specific_kwargs": {
+        "default": {
+          "pre_prompt": "Note: You only need to respond with {} without providing any additional information.\n",
+          "post_prompt": ""
+        },
+        "pre_prompt": "Note: You only need to respond with {} without providing any additional information.\n",
+        "post_prompt": ""
+      }
+    },
+    "mme": {
+      "task": "mme",
+      "dataset_path": "/ocean/projects/cis220039p/yluo22/datasets/MME",
+      "dataset_kwargs": {
+        "token": true
+      },
+      "test_split": "test",
+      "full_docs": false,
+      "process_results_use_image": false,
+      "doc_to_visual": "<function mme_doc_to_visual at 0x14fb722bed40>",
+      "doc_to_text": "<function mme_doc_to_text at 0x14fb722bf1a0>",
+      "doc_to_target": "answer",
+      "process_results": "<function mme_process_results at 0x14fb722bf740>",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "mme_perception_score",
+          "aggregation": "<function mme_aggregate_results at 0x14fb722bfc40>",
+          "higher_is_better": true
+        },
+        {
+          "metric": "mme_cognition_score",
+          "aggregation": "<function mme_aggregate_results at 0x14fb722ec0e0>",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "max_new_tokens": 16,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "num_beams": 1,
+        "do_sample": false,
+        "until": [
+          "\n\n"
+        ]
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "score_key": "score",
+      "metadata": [
+        {
+          "version": 0.0
+        }
+      ],
+      "lmms_eval_specific_kwargs": {
+        "default": {
+          "pre_prompt": "",
+          "post_prompt": "\nAnswer the question using a single word or phrase."
+        },
+        "gpt4v": {
+          "pre_prompt": "",
+          "post_prompt": "\nAnswer the question with Yes or No."
+        },
+        "qwen_vl": {
+          "pre_prompt": "",
+          "post_prompt": " Answer:"
+        },
+        "otterhd": {
+          "pre_prompt": "",
+          "post_prompt": " Answer:"
+        },
+        "xcomposer2_4khd": {
+          "pre_prompt": "[UNUSED_TOKEN_146]user\n",
+          "post_prompt": " Answer this question briefly[UNUSED_TOKEN_145]\n[UNUSED_TOKEN_146]assistant\n"
+        },
+        "plm": {
+          "pre_prompt": "",
+          "post_prompt": ""
+        },
+        "pre_prompt": "",
+        "post_prompt": "\nAnswer the question using a single word or phrase."
+      }
+    },
+    "mmstar": {
+      "task": "mmstar",
+      "tag": [
+        "public_eval_qwen3_5_family"
+      ],
+      "dataset_path": "/ocean/projects/cis220039p/yluo22/datasets/MMStar",
+      "dataset_kwargs": {
+        "token": true
+      },
+      "test_split": "val",
+      "full_docs": false,
+      "process_results_use_image": false,
+      "doc_to_visual": "<function mmstar_doc_to_visual at 0x14fb722eef20>",
+      "doc_to_text": "<function mmstar_doc_to_text at 0x14fb722ee660>",
+      "doc_to_target": "answer",
+      "process_results": "<function mmstar_process_results at 0x14fb722edd00>",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "coarse perception",
+          "aggregation": "<function mmstar_aggregate_results at 0x14fb722eca40>",
+          "higher_is_better": true
+        },
+        {
+          "metric": "fine-grained perception",
+          "aggregation": "<function mmstar_aggregate_results at 0x14fb722ee200>",
+          "higher_is_better": true
+        },
+        {
+          "metric": "instance reasoning",
+          "aggregation": "<function mmstar_aggregate_results at 0x14fb722ed580>",
+          "higher_is_better": true
+        },
+        {
+          "metric": "logical reasoning",
+          "aggregation": "<function mmstar_aggregate_results at 0x14fb73f002c0>",
+          "higher_is_better": true
+        },
+        {
+          "metric": "science & technology",
+          "aggregation": "<function mmstar_aggregate_results at 0x14fb73f00c20>",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math",
+          "aggregation": "<function mmstar_aggregate_results at 0x14fb73f01300>",
+          "higher_is_better": true
+        },
+        {
+          "metric": "average",
+          "aggregation": "<function mmstar_aggregate_results at 0x14fb73f019e0>",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "\n\n"
+        ],
+        "do_sample": false
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "score_key": "score",
+      "metadata": [
+        {
+          "version": 0.0
+        }
+      ],
+      "lmms_eval_specific_kwargs": {
+        "default": {
+          "pre_prompt": "",
+          "post_prompt": "\nAnswer with the option's letter from the given choices directly"
+        },
+        "qwen3_vl": {
+          "pre_prompt": "Question: ",
+          "post_prompt": "Answer with the option letter only."
+        }
+      }
+    }
+  },
+  "versions": {
+    "cv_bench": "Yaml",
+    "mme": "Yaml",
+    "mmstar": "Yaml"
+  },
+  "n-shot": {
+    "cv_bench": 0,
+    "mme": 0,
+    "mmstar": 0
+  },
+  "higher_is_better": {
+    "cv_bench": {
+      "cv_bench_acc": true
+    },
+    "mme": {
+      "mme_perception_score": true,
+      "mme_cognition_score": true
+    },
+    "mmstar": {
+      "coarse perception": true,
+      "fine-grained perception": true,
+      "instance reasoning": true,
+      "logical reasoning": true,
+      "science & technology": true,
+      "math": true,
+      "average": true
+    }
+  },
+  "n-samples": {
+    "mmstar": {
+      "original": 1500,
+      "effective": 1500
+    },
+    "mme": {
+      "original": 2374,
+      "effective": 2374
+    },
+    "cv_bench": {
+      "original": 2638,
+      "effective": 2638
+    }
+  },
+  "config": {
+    "model": "qwen3_vl",
+    "model_args": "pretrained=/ocean/projects/cis220039p/yluo22/models/qwen3-vl-32b",
+    "batch_size": "1",
+    "batch_sizes": [],
+    "device": null,
+    "use_cache": null,
+    "limit": null,
+    "offset": 0,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": "",
+    "random_seed": 0,
+    "numpy_seed": 1234,
+    "torch_seed": 1234,
+    "fewshot_seed": 1234,
+    "resolved_cli_args": {
+      "config": "",
+      "model": "qwen3_vl",
+      "tasks": "mmstar,mme,cv_bench",
+      "model_args": "pretrained=/ocean/projects/cis220039p/yluo22/models/qwen3-vl-32b",
+      "launcher_args": null,
+      "num_fewshot": null,
+      "batch_size": "1",
+      "max_batch_size": null,
+      "device": null,
+      "output_path": "/ocean/projects/cis220039p/yluo22/logs/32b/",
+      "limit": null,
+      "offset": 0,
+      "use_cache": null,
+      "cache_requests": null,
+      "check_integrity": false,
+      "write_out": false,
+      "log_samples": false,
+      "wandb_log_samples": false,
+      "log_samples_suffix": "model_outputs",
+      "system_instruction": null,
+      "apply_chat_template": false,
+      "fewshot_as_multiturn": false,
+      "show_config": false,
+      "include_path": null,
+      "gen_kwargs": "",
+      "reasoning_tags": "[[\"<think>\", \"</think>\"], [\"<analysis>\", \"</analysis>\"]]",
+      "verbosity": "INFO",
+      "wandb_args": "",
+      "timezone": "Asia/Singapore",
+      "hf_hub_log_args": ",output_path=/ocean/projects/cis220039p/yluo22/logs/32b/",
+      "predict_only": false,
+      "seed": [
+        0,
+        1234,
+        1234,
+        1234
+      ],
+      "trust_remote_code": false,
+      "process_with_media": false,
+      "agentic_trace_mode": "basic",
+      "force_simple": false,
+      "tui": false,
+      "repeats": 1,
+      "baseline": null,
+      "max_tokens": null,
+      "power_analysis": false,
+      "effect_size": 0.03,
+      "alpha": 0.05,
+      "power": 0.8,
+      "correlation": 0.5,
+      "std_a": null,
+      "std_b": null
+    }
+  },
+  "git_hash": null,
+  "git_branch": null,
+  "lmms_eval_version": "unknown@unknown",
+  "date": "20260414_233808",
+  "throughput": {
+    "total_gen_tokens": 22151,
+    "total_elapsed_time": 2270.436245918274,
+    "avg_speed": 9.756274830364623,
+    "avg_rank": 0.0
+  },
+  "usage": {},
+  "task_hashes": {},
+  "model_source": "qwen3_vl",
+  "model_name": "/ocean/projects/cis220039p/yluo22/models/qwen3-vl-32b",
+  "model_name_sanitized": "models__qwen3-vl-32b",
+  "system_instruction": null,
+  "system_instruction_sha": null,
+  "fewshot_as_multiturn": false,
+  "chat_template": null,
+  "chat_template_sha": null,
+  "start_time": 3119138.645878723,
+  "end_time": 3124605.102750495,
+  "total_evaluation_time_seconds": "5466.456871772185"
+}

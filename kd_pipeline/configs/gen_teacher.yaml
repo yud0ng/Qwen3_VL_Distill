@@ -1,0 +1,7 @@
+# 与 scripts/gen_teacher_topk.py 共用
+in_jsonl: "data/sample_train.jsonl"
+out_jsonl: "data/teacher_topk.jsonl"
+teacher_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+topk: 20
+max_samples: 0
+bf16: true
