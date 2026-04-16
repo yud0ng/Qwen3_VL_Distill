@@ -72,22 +72,29 @@
 
 ---
 
-teacher response (baseline):
+# Teacher Response (Baseline) - Statistics Report
 
-Total written: 50000
+### 1. Total Volume
+- **Total Written:** 50,000
 
-Type breakdown:
-  egocentric         8221
-  general           25000
-  metric             8472
-  relational         8307
+### 2. Type Breakdown
+| Category | Count |
+| :--- | :--- |
+| **General** | 25,000 |
+| **Metric** | 8,472 |
+| **Relational** | 8,307 |
+| **Egocentric** | 8,221 |
 
-Confidence distribution (pre-filter):
-  conf=5          41163  (82.3%)
-  conf=4           7572  (15.1%)
-  conf=3            204  (0.4%)
-  conf=2             19  (0.0%)
-  conf=1              4  (0.0%)
-  conf=missing     1038  (2.1%)
+### 3. Confidence Distribution (Pre-filter)
+| Confidence Level | Count | Percentage |
+| :--- | :--- | :--- |
+| **Conf=5** | 41,163 | 82.3% |
+| **Conf=4** | 7,572 | 15.1% |
+| **Conf=3** | 204 | 0.4% |
+| **Conf=2** | 19 | 0.0% |
+| **Conf=1** | 4 | 0.0% |
+| **Missing** | 1,038 | 2.1% |
 
-Samples conf>=4 (will pass filter): 48735  (97.5%)
+### 4. Filter Results
+- **Samples (Conf >= 4):** 48,735
+- **Pass Rate:** 97.5%
