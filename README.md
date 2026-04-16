@@ -81,3 +81,30 @@
 | Total elapsed time | 5,466 sec |
 
 ---
+
+# Teacher Response (Baseline) - Statistics Report
+
+### 1. Total Volume
+- **Total Written:** 50,000
+
+### 2. Type Breakdown
+| Category | Count |
+| :--- | :--- |
+| **General** | 25,000 |
+| **Metric** | 8,472 |
+| **Relational** | 8,307 |
+| **Egocentric** | 8,221 |
+
+### 3. Confidence Distribution (Pre-filter)
+| Confidence Level | Count | Percentage |
+| :--- | :--- | :--- |
+| **Conf=5** | 41,163 | 82.3% |
+| **Conf=4** | 7,572 | 15.1% |
+| **Conf=3** | 204 | 0.4% |
+| **Conf=2** | 19 | 0.0% |
+| **Conf=1** | 4 | 0.0% |
+| **Missing** | 1,038 | 2.1% |
+
+### 4. Filter Results
+- **Samples (Conf >= 4):** 48,735
+- **Pass Rate:** 97.5%
