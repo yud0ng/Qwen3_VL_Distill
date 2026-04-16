@@ -24,3 +24,6 @@ __pycache__/
 venv/
 wandb/
 .cursor/
+
+# 本地安装的 rclone 二进制与压缩包（install_rclone.sh）
+tools/

@@ -1,5 +1,5 @@
 {
-  "input": "/sgl-workspace/distill/distill/teacher_responses.jsonl",
+  "input": "/sgl-workspace/distill/distill/kd_pipeline/runs/c_task_logs/teacher_responses.rewritten_20260416_041413.jsonl",
   "out_dir": "/sgl-workspace/distill/distill/kd_pipeline/data/c_task_splits",
   "files": {
     "teacher_general.jsonl": "/sgl-workspace/distill/distill/kd_pipeline/data/c_task_splits/teacher_general.jsonl",
