@@ -17,4 +17,4 @@ lora_r: 64
 lora_alpha: 128
 bf16: true
 seed: 42
-save_every: 0
+save_every: 500

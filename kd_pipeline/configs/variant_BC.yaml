@@ -1,0 +1,16 @@
+# Variant B+C — λ1·CE(answer) + λ2·CE(trace) + λ3·KL；需 teacher_responses + teacher_topk_jsonl。
+train_jsonl: "../teacher_responses.jsonl"
+teacher_topk_jsonl: "data/teacher_topk.jsonl"
+out_dir: "runs/variant_bc"
+variant: BC
+input_format: teacher_responses
+lam1: 0.5
+lam2: 0.3
+lam3: 0.2
+temperature: 4.0
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+lr: 2.0e-5
+save_every: 500
+lora_r: 64
+lora_alpha: 128
+bf16: true

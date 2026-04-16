@@ -13,6 +13,39 @@ def _extract_answer_tag(text: str) -> str | None:
     return None
 
 
+def _extract_redacted_thinking(text: str) -> str | None:
+    m = re.search(
+        r"<redacted_thinking>(.*?)</redacted_thinking>",
+        text,
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    if m:
+        return m.group(1).strip()
+    return None
+
+
+def extract_trace_and_answer(raw: str) -> tuple[str, str]:
+    """
+    用于 Variant B / BC：拆出 trace（推理链）与 answer（最终答案）。
+    优先级：<redacted_thinking>；否则「<answer> 之前的正文」为 trace，<answer> 内为 answer；
+    若无 <answer>，trace 为空，answer 为 normalize 后的全文（与 answer_only 一致）。
+    """
+    inner = _extract_answer_tag(raw)
+    think = _extract_redacted_thinking(raw)
+    if think is not None and inner is not None:
+        return think, inner
+    if think is not None:
+        return think, inner or _strip_confidence_and_answer_tags(raw).strip()
+
+    if inner is not None:
+        pre = re.split(r"<answer>", raw, maxsplit=1, flags=re.IGNORECASE)[0].strip()
+        trace = pre if pre else ""
+        return trace, inner
+
+    a = normalize_teacher_text(str(raw), target="answer_only")
+    return "", a
+
+
 def normalize_teacher_text(response: str, *, target: str = "answer_only") -> str:
     """
     target:

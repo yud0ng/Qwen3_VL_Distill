@@ -4,7 +4,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.teacher_responses import normalize_teacher_text, row_teacher_responses
+from src.teacher_responses import (
+    extract_trace_and_answer,
+    normalize_teacher_text,
+    row_teacher_responses,
+)
 
 
 def test_answer_only_extracts_inner():
@@ -22,6 +26,13 @@ def test_min_confidence_skip():
     }
     u, a, img, m = row_teacher_responses(obj, min_confidence=4)
     assert m["skip"] is True
+
+
+def test_extract_trace_before_answer_tag():
+    r = "Reasoning line.\n\n<answer>Yes</answer><confidence>5</confidence>"
+    tr, ans = extract_trace_and_answer(r)
+    assert "Reasoning" in tr
+    assert ans == "Yes"
 
 
 def test_row_ok():

@@ -10,8 +10,7 @@ temperature: 4.0
 lr: 2.0e-5
 max_steps: 0
 num_epochs: 1
-# 与技术方案「每 500 step 存 ckpt」对齐时可设 500（此处为 optimizer step = 样本步）
-save_every: 0
+save_every: 500
 seed: 42
 lora_r: 64
 lora_alpha: 128
