@@ -339,7 +339,7 @@ def main() -> None:
             if args.input_format == "teacher_responses":
                 user_txt, asst_a, img, meta = row_teacher_responses(
                     obj,
-                    target="answer_only",
+                    target=args.teacher_target,
                     min_confidence=args.min_confidence,
                 )
                 if meta.get("skip"):
