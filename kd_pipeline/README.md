@@ -11,6 +11,8 @@
 
 全量训练将 `sample_train.jsonl` 换为 M1 产出的 `clean_train.jsonl`；**含 KL 的 ~10k** 优先覆盖 `data_source=cv_bench` 样本。字段约定见 **`docs/DATA_FORMAT.md`**。
 
+**教师 `teacher_responses.jsonl`**：使用 `--input_format teacher_responses` 与 `configs/train_teacher_responses.yaml`（解析 `question` + `response` 中的 `<answer>`）。
+
 ## 环境
 
 ```bash

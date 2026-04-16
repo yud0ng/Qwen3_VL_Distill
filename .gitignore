@@ -1,0 +1,7 @@
+# 教师输出全量 JSONL，体积大，勿提交
+teacher_responses.jsonl
+
+# 本地下载的数据集（如 COCO train2014），体积大，勿提交
+datasets/
+kd_pipeline/data/teacher_smoke_local.jsonl
+kd_pipeline/runs/

@@ -1,0 +1,20 @@
+# 使用仓库根目录 teacher_responses.jsonl（或复制到 kd_pipeline/data/）
+# 在 kd_pipeline 目录执行:
+#   python scripts/train_distill.py --config configs/train_teacher_responses.yaml
+
+train_jsonl: "../teacher_responses.jsonl"
+out_dir: "runs/sft_teacher_responses"
+variant: A
+input_format: teacher_responses
+teacher_target: answer_only
+min_confidence: 0
+skip_missing_image: true
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+lr: 2.0e-5
+num_epochs: 1
+max_steps: 0
+lora_r: 64
+lora_alpha: 128
+bf16: true
+seed: 42
+save_every: 0
