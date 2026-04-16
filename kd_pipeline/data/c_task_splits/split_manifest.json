@@ -1,0 +1,18 @@
+{
+  "input": "/sgl-workspace/distill/distill/teacher_responses.jsonl",
+  "out_dir": "/sgl-workspace/distill/distill/kd_pipeline/data/c_task_splits",
+  "files": {
+    "teacher_general.jsonl": "/sgl-workspace/distill/distill/kd_pipeline/data/c_task_splits/teacher_general.jsonl",
+    "teacher_spatial.jsonl": "/sgl-workspace/distill/distill/kd_pipeline/data/c_task_splits/teacher_spatial.jsonl"
+  },
+  "counts_by_source": {
+    "llava_general": 21732,
+    "coco_spatial": 21714
+  },
+  "lines_written": {
+    "llava_general": 21732,
+    "coco_spatial": 21714
+  },
+  "unmatched_source_count": 0,
+  "unmatched_sources_sample": []
+}

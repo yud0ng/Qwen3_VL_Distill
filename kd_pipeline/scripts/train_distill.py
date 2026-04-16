@@ -27,6 +27,7 @@ import torch.optim as optim
 from peft import LoraConfig, PeftModel, get_peft_model
 from tqdm import tqdm
 from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
+from transformers.optimization import get_cosine_schedule_with_warmup
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -77,6 +78,35 @@ def _load_ds_config_json(path: Path, world_size: int) -> dict:
     ga = int(cfg.get("gradient_accumulation_steps", 1))
     cfg["train_batch_size"] = micro * world_size * ga
     return cfg
+
+
+def _read_gradient_accumulation_steps(deepspeed_config_path: Path | None) -> int:
+    if not deepspeed_config_path:
+        return 1
+    cfg = json.loads(Path(deepspeed_config_path).read_text(encoding="utf-8"))
+    return max(1, int(cfg.get("gradient_accumulation_steps", 1)))
+
+
+def _estimate_optimizer_steps(
+    rows: list,
+    *,
+    world_size: int,
+    num_epochs: int,
+    max_steps: int,
+    gradient_accumulation_steps: int,
+) -> int:
+    """
+    估算一次训练中的 **optimizer step** 次数（与 DeepSpeed grad accumulation 一致）。
+    训练循环每步一次 forward；每 ga 次 backward 对应约一次 optimizer step。
+    max_steps>0 时按每 rank 至多 max_steps 次 forward（与现有 break 逻辑一致）。
+    """
+    ws = max(1, world_size)
+    shard = _shard_rows_padded(rows, 0, ws)
+    forwards = len(shard) * int(num_epochs)
+    if max_steps > 0:
+        forwards = min(forwards, int(max_steps))
+    ga = max(1, int(gradient_accumulation_steps))
+    return max(1, (forwards + ga - 1) // ga)
 
 
 def _strip_deepspeed_cli_for_init(ns: argparse.Namespace) -> argparse.Namespace:
@@ -143,6 +173,26 @@ def build_parser() -> argparse.ArgumentParser:
         action=argparse.BooleanOptionalAction,
         default=None,
     )
+    p.add_argument(
+        "--max_length",
+        type=int,
+        default=None,
+        help="序列最大 token（过小会裁掉图像占位符导致 Qwen3-VL 报错；长回答建议 4096+）",
+    )
+    p.add_argument(
+        "--lr_scheduler",
+        type=str,
+        choices=["constant", "cosine"],
+        default=None,
+        help="constant=固定 lr；cosine=linear warmup + cosine decay（需安装 transformers）",
+    )
+    p.add_argument(
+        "--warmup_ratio",
+        type=float,
+        default=None,
+        help="cosine 时 warmup 步数占比（与 warmup_steps 二选一，优先 warmup_steps）",
+    )
+    p.add_argument("--warmup_steps", type=int, default=None, help="cosine 时绝对 warmup 步数（覆盖 warmup_ratio）")
     p = deepspeed.add_config_arguments(p)
     return p
 
@@ -202,6 +252,12 @@ def parse_args() -> argparse.Namespace:
     if args.skip_missing_image is None:
         args.skip_missing_image = bool(y.get("skip_missing_image", True))
 
+    args.max_length = pick("max_length", 4096)
+
+    args.lr_scheduler = pick("lr_scheduler", "constant")
+    args.warmup_ratio = pick("warmup_ratio", 0.03)
+    args.warmup_steps = pick("warmup_steps", None)
+
     if args.variant in ("B", "BC") and args.input_format != "teacher_responses":
         p.error("Variant B / BC 需要 --input_format teacher_responses（含 response 中的 trace/answer）")
 
@@ -211,10 +267,41 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
+    rows = [
+        json.loads(l)
+        for l in Path(args.train_jsonl).read_text(encoding="utf-8").splitlines()
+        if l.strip()
+    ]
+
     use_ds = bool(args.deepspeed_config)
     world_size = int(os.environ.get("WORLD_SIZE", "1"))
     rank = int(os.environ.get("RANK", "0"))
     local_rank = args.local_rank if args.local_rank >= 0 else int(os.environ.get("LOCAL_RANK", "0"))
+
+    ga = _read_gradient_accumulation_steps(Path(args.deepspeed_config) if args.deepspeed_config else None)
+    ws_sched = world_size if use_ds else 1
+    num_training_steps = _estimate_optimizer_steps(
+        rows,
+        world_size=ws_sched,
+        num_epochs=int(args.num_epochs),
+        max_steps=int(args.max_steps or 0),
+        gradient_accumulation_steps=ga,
+    )
+    if args.lr_scheduler == "cosine":
+        if args.warmup_steps is not None:
+            num_warmup_steps = int(args.warmup_steps)
+        else:
+            num_warmup_steps = int(num_training_steps * float(args.warmup_ratio))
+        num_warmup_steps = max(0, min(num_warmup_steps, num_training_steps))
+    else:
+        num_warmup_steps = 0
+
+    training_schedule = {
+        "gradient_accumulation_steps": ga,
+        "estimated_optimizer_steps": num_training_steps,
+        "num_warmup_steps": num_warmup_steps,
+        "lr_scheduler_effective": args.lr_scheduler,
+    }
 
     random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -232,16 +319,12 @@ def main() -> None:
     out_root = Path(args.out_dir) if args.out_dir else ROOT / "runs" / "distill_smoke"
     if (not use_ds) or rank == 0:
         out_root.mkdir(parents=True, exist_ok=True)
+        resolved = dict(vars(args))
+        resolved.update({"training_schedule": training_schedule})
         (out_root / "resolved_args.json").write_text(
-            json.dumps(vars(args), indent=2, ensure_ascii=False, default=str),
+            json.dumps(resolved, indent=2, ensure_ascii=False, default=str),
             encoding="utf-8",
         )
-
-    rows = [
-        json.loads(l)
-        for l in Path(args.train_jsonl).read_text(encoding="utf-8").splitlines()
-        if l.strip()
-    ]
     topk_map = load_topk_map(Path(args.teacher_topk_jsonl)) if args.variant in ("C", "BC") else {}
 
     use_bf16 = bool(args.bf16) and torch.cuda.is_available() and torch.cuda.is_bf16_supported()
@@ -297,22 +380,34 @@ def main() -> None:
     params = [p for p in model.parameters() if p.requires_grad]
     opt = optim.AdamW(params, lr=args.lr)
 
+    lr_sched = None
+    if args.lr_scheduler == "cosine":
+        lr_sched = get_cosine_schedule_with_warmup(
+            opt,
+            num_warmup_steps=num_warmup_steps,
+            num_training_steps=num_training_steps,
+        )
+
     model_engine = None
     if use_ds:
         ds_cfg = _load_ds_config_json(Path(args.deepspeed_config), world_size)
         ds_args = _strip_deepspeed_cli_for_init(args)
-        model_engine, opt, _, _ = deepspeed.initialize(
+        model_engine, opt, _, lr_sched_ds = deepspeed.initialize(
             args=ds_args,
             model=model,
             optimizer=opt,
             model_parameters=params,
+            lr_scheduler=lr_sched,
             config=ds_cfg,
         )
         forward_mod = model_engine
+        lr_sched = lr_sched_ds
     else:
         forward_mod = model
 
-    collator = Qwen3VLChatCollator(processor=processor, max_length=512, max_image_side=448)
+    collator = Qwen3VLChatCollator(
+        processor=processor, max_length=int(args.max_length), max_image_side=448
+    )
 
     global_step = 0
     log_path = out_root / "train_log.jsonl"
@@ -453,6 +548,8 @@ def main() -> None:
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(params, 1.0)
                 opt.step()
+                if lr_sched is not None:
+                    lr_sched.step()
 
             rec = {
                 "step": global_step,
@@ -481,6 +578,13 @@ def main() -> None:
     for ep in range(args.num_epochs):
         if one_epoch():
             break
+
+    if (not use_ds or rank == 0) and global_step == 0:
+        print(
+            "错误：未完成任何训练步（可能全部样本被跳过：检查 image 路径、min_confidence、空回答）。",
+            file=sys.stderr,
+        )
+        raise SystemExit(3)
 
     save_p = out_root / "adapter_final"
     if (not use_ds) or rank == 0:

@@ -1,7 +1,26 @@
-# 教师输出全量 JSONL，体积大，勿提交
-teacher_responses.jsonl
+# 按仓库内实际 >1MB 文件归纳：整目录或大文件直接忽略（不必逐文件写全）
 
-# 本地下载的数据集（如 COCO train2014），体积大，勿提交
-datasets/
-kd_pipeline/data/teacher_smoke_local.jsonl
 kd_pipeline/runs/
+datasets/
+
+teacher_responses.jsonl
+teacher_responses.local.jsonl
+teacher_responses*.bak
+*.bak
+
+kd_pipeline/data/c_task_splits/teacher_general.jsonl
+kd_pipeline/data/c_task_splits/teacher_spatial.jsonl
+
+kd_pipeline/data/teacher_topk.jsonl
+kd_pipeline/data/clean_train.jsonl
+kd_pipeline/data/teacher_smoke_local.jsonl
+
+*.safetensors
+*.log
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+wandb/
+.cursor/

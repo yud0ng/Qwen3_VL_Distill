@@ -347,19 +347,22 @@ def parse_confidence(response: str) -> int | None:
 # ── Argument parsing ──────────────────────────────────────────────
 
 def parse_args():
-    BASE = "/ocean/projects/cis220039p/yluo22"
+    # 本仓库数据目录约定（与 teacher_responses.jsonl 内 image 路径一致）
+    _REPO = "/sgl-workspace/distill/distill"
+    _OCEAN_BASE = "/ocean/projects/cis220039p/yluo22"
     p = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    p.add_argument("--model_path",      default=f"{BASE}/models/qwen3-vl-32b")
-    p.add_argument("--coco_dir",        default=f"{BASE}/datasets/coco/train2014",
+    p.add_argument("--model_path",      default=f"{_OCEAN_BASE}/models/qwen3-vl-32b")
+    p.add_argument("--coco_dir",        default=f"{_REPO}/datasets/coco/train2014",
                    help="COCO train2014 images directory")
-    p.add_argument("--coco_ann",        default=f"{BASE}/datasets/coco/annotations/instances_train2014.json",
+    p.add_argument("--coco_ann",        default=f"{_REPO}/datasets/coco/annotations/instances_train2014.json",
                    help="COCO instances_train2014.json")
-    p.add_argument("--llava_json",      default=f"{BASE}/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json")
-    p.add_argument("--llava_image_dir", default=f"{BASE}/datasets/coco/train2014",
+    p.add_argument("--llava_json",      default=f"{_REPO}/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json",
+                   help="LLaVA JSON（若未放在仓库 datasets 下请显式传路径）")
+    p.add_argument("--llava_image_dir", default=f"{_REPO}/datasets/coco/train2014",
                    help="LLaVA image directory (defaults to coco/train2014 since LLaVA reuses COCO images)")
-    p.add_argument("--output",          default=f"{BASE}/data/teacher_responses.jsonl")
+    p.add_argument("--output",          default=f"{_REPO}/teacher_responses.jsonl")
     p.add_argument("--total",      type=int, default=50_000)
     p.add_argument("--resume",     action="store_true",
                    help="Resume from existing output file, skipping already-processed images")

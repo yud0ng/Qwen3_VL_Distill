@@ -18,3 +18,5 @@ lora_alpha: 128
 bf16: true
 seed: 42
 save_every: 500
+# 教师回答较长；512 会裁掉视觉占位符导致 Image features/tokens mismatch
+max_length: 4096

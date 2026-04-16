@@ -4,6 +4,8 @@
 
 ## `teacher_responses.jsonl`（教师 M1 产物）
 
+仓库根目录 **`distill/distill/teacher_responses.jsonl`**：从集群拷下来时 `image` 常为 `/ocean/.../coco/train2014/...`，在本仓库应对齐到 **`distill/distill/datasets/coco/train2014`**（见下方 `rewrite_teacher_image_paths.py --in-place`）。原地修改前会自动备份 **`teacher_responses.jsonl.bak`**。
+
 与 `--input_format teacher_responses` 配合使用（见 `src/teacher_responses.py`）。
 
 | 字段 | 说明 |
@@ -22,7 +24,18 @@ cd kd_pipeline
 python scripts/train_distill.py --config configs/train_teacher_responses.yaml
 ```
 
-若图片路径在别的机器（如 `/ocean/...`），需同步数据或改路径；默认 **`skip_missing_image: true`** 会跳过缺失文件。
+若 `image` 仍是集群路径 `/ocean/...`，在本机放好 COCO **train2014** 后，对**同一份** `teacher_responses.jsonl` 原地改路径（会先备份 `.bak`）：
+
+本仓库将 COCO 放在 **`distill/distill/datasets/coco/train2014`**，从 `kd_pipeline` 下相对路径为 `../datasets/coco/train2014`。
+
+```bash
+cd kd_pipeline
+python scripts/rewrite_teacher_image_paths.py \
+  --input ../teacher_responses.jsonl --in-place \
+  --coco-root ../datasets/coco/train2014
+```
+
+也可用 `--output` 另存、或 `--from-prefix` / `--to-prefix` 做纯字符串替换。未改路径时默认 **`skip_missing_image: true`** 会跳过缺失文件。
 
 ## 必填（`chat` / clean_train 格式）
 
