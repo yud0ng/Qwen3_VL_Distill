@@ -71,3 +71,23 @@
 | Total elapsed time | 5,466 sec |
 
 ---
+
+teacher response (baseline):
+
+Total written: 50000
+
+Type breakdown:
+  egocentric         8221
+  general           25000
+  metric             8472
+  relational         8307
+
+Confidence distribution (pre-filter):
+  conf=5          41163  (82.3%)
+  conf=4           7572  (15.1%)
+  conf=3            204  (0.4%)
+  conf=2             19  (0.0%)
+  conf=1              4  (0.0%)
+  conf=missing     1038  (2.1%)
+
+Samples conf>=4 (will pass filter): 48735  (97.5%)
