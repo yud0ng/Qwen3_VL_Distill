@@ -1,0 +1,14 @@
+# Variant B — CoT：λ1·CE(answer) + λ2·CE(trace)。需 teacher_responses.jsonl。
+train_jsonl: "../teacher_responses.jsonl"
+out_dir: "runs/variant_b"
+variant: B
+input_format: teacher_responses
+lam1: 0.6
+lam2: 0.4
+lam3: 0.0
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+lr: 2.0e-5
+save_every: 500
+lora_r: 64
+lora_alpha: 128
+bf16: true

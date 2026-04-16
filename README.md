@@ -52,9 +52,9 @@
 
 | Benchmark | Metric | 32B Teacher | 2B Original | 2B Distilled | Recovery% |
 |-----------|--------|-------------|-------------|--------------|-----------|
-| MME | Total Score | 2476.51 | - | - | - |
-| MMStar | Average Acc | 70.74% | - | - | - |
-| CV-Bench | Average Acc | 88.17% | - | - | - |
+| MME | Total Score | 2476.51 | 1910.64 | - | - |
+| MMStar | Average Acc | 70.74% | 47.56% | - | - |
+| CV-Bench | Average Acc | 88.17% | 73.09% | - | - |
 
 > Recovery% = (Distilled − Original) / (Teacher − Original) × 100
 

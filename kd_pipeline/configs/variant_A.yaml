@@ -9,3 +9,4 @@ lora_r: 64
 lora_alpha: 128
 lr: 2.0e-5
 bf16: true
+save_every: 500

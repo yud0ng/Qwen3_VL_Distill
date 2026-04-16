@@ -1,0 +1,24 @@
+# C 任务 — Variant A+：全参数 SFT，空间聚焦数据（coco_spatial）
+# 同上：图像路径与 DeepSpeed batch 说明见 variant_a_full_sft_general.yaml 头部注释
+train_jsonl: "data/c_task_splits/teacher_spatial.jsonl"
+out_dir: "runs/variant_a_plus_full_sft_spatial"
+deepspeed_config: "configs/deepspeed_zero2_bf16_c_task.json"
+
+variant: A
+input_format: teacher_responses
+teacher_target: answer_only
+min_confidence: 0
+skip_missing_image: true
+
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+lr: 2.0e-5
+lr_scheduler: cosine
+warmup_ratio: 0.03
+
+lora_r: 0
+bf16: true
+num_epochs: 1
+max_steps: 0
+max_length: 4096
+save_every: 0
+seed: 42
