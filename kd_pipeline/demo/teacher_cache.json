@@ -1,0 +1,502 @@
+[
+  {
+    "id": "llava_general_0040837",
+    "image": "./data/coco/COCO_train2014_000000191042.jpg",
+    "question": "How many trains are visible in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "4",
+    "teacher_full_response": "Looking at the image, I can identify several distinct trains or train segments based on their positions on the tracks and their composition:\n\n1. **Top left train**: A long line of blue and red freight cars (some with \"MAERSK\" branding) on the upper tracks.\n2. **Middle left train**: A silver passenger-style train with multiple connected cars, positioned on a separate track to the left.\n3. **Center train**: A green locomotive pulling two white tank cars, positioned on a track in the foreground.\n4. **Right-side train**: A long line of red freight cars (boxcars) on the right side of the image, extending into the background.\n\nThese appear to be four separate trains or train units, each on different tracks and with distinct compositions.\n\n<answer>4</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0008585",
+    "image": "./data/coco/COCO_train2014_000000408460.jpg",
+    "question": "How many horses are in the image, and what are they doing?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "There are two horses, and they are grazing in a grassy field.",
+    "teacher_full_response": "There are two horses visible in the image. Both are standing in a grassy field with their heads lowered, appearing to graze on the grass. The horse on the left has a long, flowing reddish-brown mane and tail, while the horse on the right is darker, with a thick, dark mane and tail, and is positioned near a small white metal fence. The field is dotted with small yellow flowers, and a dense green treeline forms the background.\n\n<answer>There are two horses, and they are grazing in a grassy field.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0008282",
+    "image": "./data/coco/COCO_train2014_000000435913.jpg",
+    "question": "How many giraffes are visible in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "2",
+    "teacher_full_response": "There are two giraffes visible in the image. One is in the foreground, facing right with its full body visible from the side. The second giraffe is partially visible in the background, with its rear and legs showing behind the first giraffe. Both are standing on a rocky, grassy terrain.\n\n<answer>2</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0028854",
+    "image": "./data/coco/COCO_train2014_000000546474.jpg",
+    "question": "How many zebras are in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "2",
+    "teacher_full_response": "There are two zebras in the image. One zebra is clearly visible in the foreground, standing with its body facing right and head turned slightly toward the viewer. The second zebra is partially obscured behind the first, with its head and neck visible over the back of the front zebra, and its legs visible beneath. Both zebras are standing close together in what appears to be an enclosure with sandy ground and a log in the foreground.\n\n<answer>2</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0049706",
+    "image": "./data/coco/COCO_train2014_000000002106.jpg",
+    "question": "How many glasses are there on the table?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "2",
+    "teacher_full_response": "There are two green stemmed glasses on the table. They are positioned in the foreground, one slightly to the left and the other to the right, both with a wide bowl and a long stem, resembling martini or cocktail glasses. One of the glasses contains a slice of lime.\n\n<answer>2</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0003828",
+    "image": "./data/coco/COCO_train2014_000000203036.jpg",
+    "question": "How many men are in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "4",
+    "teacher_full_response": "There are four men in the image. They are standing close together, each dressed in semi-formal or formal attire. From left to right:  \n1. A bald man in a white shirt and black vest.  \n2. A man with dark hair, also in a white shirt and black vest, adjusting the tie of the man next to him.  \n3. A man in a light blue shirt and patterned tie, being assisted with his tie.  \n4. A man in a pink shirt and striped pants, adjusting his own tie.  \n\nAll four are clearly visible and distinct individuals.\n\n<answer>4</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0011600",
+    "image": "./data/coco/COCO_train2014_000000466432.jpg",
+    "question": "How many people are in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "4",
+    "teacher_full_response": "In the image, we can clearly identify:\n\n1. A woman in the foreground with blonde hair, wearing a beige sleeveless top, holding a wine glass.\n2. A man standing next to her, wearing a black shirt with white embroidery, looking down.\n3. In the background on the left, a man in a gray t-shirt is partially visible, standing near a window.\n4. Behind him, another person (possibly a child or young adult) is partially visible, sitting and wearing a dark shirt.\n\nThat makes a total of **4 people**.\n\n<answer>4</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0019856",
+    "image": "./data/coco/COCO_train2014_000000120734.jpg",
+    "question": "How many horses are in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "3",
+    "teacher_full_response": "There are three horses visible in the image. They are lying down on a muddy field, with one on the left side (light brown), one in the middle (dark brown/black with a lighter patch on its hindquarters), and one on the right side (dark brown). All are positioned horizontally and facing different directions.\n\n<answer>3</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0005680",
+    "image": "./data/coco/COCO_train2014_000000567018.jpg",
+    "question": "How many doughnuts are present in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "2",
+    "teacher_full_response": "There are two doughnuts visible in the image. One is on the left, covered in a light pink or white glaze, resting on a piece of parchment paper. The second is on the right, with a darker, amber-colored glaze, also on parchment paper. Both are placed on a wooden countertop, with a toaster oven in the background.\n\n<answer>2</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "llava_general_0049296",
+    "image": "./data/coco/COCO_train2014_000000062195.jpg",
+    "question": "How many people are riding the elephant in the image?",
+    "level": "L1",
+    "category": "count",
+    "teacher_answer": "2",
+    "teacher_full_response": "Looking at the image, I can see two people riding the elephant. One person is wearing a yellow shirt and the other is wearing a reddish-pink shirt. They are both seated on a platform on the elephant's back, under a blue and white patterned umbrella. The elephant is walking through a grassy area with trees and hills in the background.\n\n<answer>2</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0019610",
+    "image": "./data/coco/COCO_train2014_000000050290.jpg",
+    "question": "Is the person closer to the camera than the tie? Describe the depth relationship.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "The tie is part of the person and lies slightly forward on the chest, so it is not behind the person; rather, it is at a similar depth, appearing slightly closer in the image due to its position. The person is not closer than the tie — they are the same entity.",
+    "teacher_full_response": "The person is not closer to the camera than the tie — the tie is part of the person’s attire and is physically attached to the front of their shirt, directly in front of their torso. In terms of depth, the tie is positioned slightly in front of the person’s body (specifically, the chest area), but since the person includes the tie as part of their overall form, the tie is not spatially separate or behind the person. The tie appears closer to the camera than the person’s face or head because it is located lower and more forward in the image plane, but it is still an integral part of the person. Therefore, the person (as a whole) is not closer than the tie — the tie is part of the person and lies at a similar depth, slightly more forward in the visual field due to its position on the chest.\n\n<answer>The tie is part of the person and lies slightly forward on the chest, so it is not behind the person; rather, it is at a similar depth, appearing slightly closer in the image due to its position. The person is not closer than the tie — they are the same entity.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0040566",
+    "image": "./data/coco/COCO_train2014_000000307371.jpg",
+    "question": "Which object appears closer to the camera, the car or the clock? Use visual depth cues.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "car",
+    "teacher_full_response": "To determine which object appears closer to the camera, we can use visual depth cues such as relative size, overlap (occlusion), and position in the visual field.\n\n- The clock is located at the top of a tall brick tower, which dominates the center of the image and extends vertically into the sky.\n- The car is positioned on the ground in the foreground, near the bottom of the image, parked on the street.\n- The car appears smaller in size relative to the tower, but because it is on the ground and closer to the viewer’s eye level, it is clearly in the foreground.\n- There is no overlap between the car and the clock tower — the car is in front of the tower’s base, which suggests it is closer.\n- Additionally, the car is partially occluding the base of the tower, which is a strong depth cue: objects that occlude others are perceived as closer.\n\nTherefore, based on occlusion and position in the scene, the car appears closer to the camera than the clock.\n\n<answer>car</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0032968",
+    "image": "./data/coco/COCO_train2014_000000078546.jpg",
+    "question": "Rank these objects from nearest to farthest from the camera: remote, bowl, sink, bottle.",
+    "level": "L3",
+    "category": "depth",
+    "teacher_answer": "remote, bottle, sink, bowl",
+    "teacher_full_response": "Let’s analyze the spatial arrangement of the objects in the image:\n\n- The **remote** is inside a white wire basket on the left side of the counter. This basket is in the foreground and very close to the camera.\n- The **bottle** (dish soap) is next to the sink, slightly behind the basket, so it is farther than the remote.\n- The **sink** is in the center-right of the image, behind the bottle and the basket.\n- The **bowl** (a white colander-style bowl) is inside the sink, so it is slightly farther back than the sink’s rim, making it the farthest of the four.\n\nSo, from nearest to farthest:\n\n1. **Remote** (in basket, foreground)\n2. **Bottle** (next to sink, behind basket)\n3. **Sink** (center, behind bottle)\n4. **Bowl** (inside sink, rearmost)\n\n<answer>remote, bottle, sink, bowl</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0023133",
+    "image": "./data/coco/COCO_train2014_000000001216.jpg",
+    "question": "Is the umbrella closer to the camera than the person? Describe the depth relationship.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "The umbrella is at the same depth as the person, positioned directly above their head; it is not closer to the camera.",
+    "teacher_full_response": "The umbrella is not closer to the camera than the person; rather, it is held directly above the person’s head, meaning it is at the same depth as the person’s upper body. Since the person is walking away from the camera, the umbrella appears slightly higher in the visual field but is not spatially in front of or behind the person. Both the umbrella and the person are located at approximately the same distance from the camera, with the umbrella positioned vertically above the person’s shoulders. Therefore, the depth relationship is that they are at the same depth plane, with the umbrella simply elevated above the person.\n\n<answer>The umbrella is at the same depth as the person, positioned directly above their head; it is not closer to the camera.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0014761",
+    "image": "./data/coco/COCO_train2014_000000255239.jpg",
+    "question": "Which object appears closer to the camera, the frisbee or the person? Use visual depth cues.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "frisbee",
+    "teacher_full_response": "To determine which object is closer to the camera — the frisbee or the person — we can analyze visual depth cues such as **overlap**, **relative size**, and **perspective**.\n\n- The **person** is standing on a raised platform or stage, which is partially framed by wooden and metal barriers in the foreground. These barriers are clearly in front of the person, indicating that the person is behind them.\n- The **frisbee** is being held in the person’s hand and is extended forward, closer to the camera than the person’s torso. It is also partially overlapping the person’s arm and hand, which is a strong depth cue: **if object A overlaps object B, object A is closer**.\n- Additionally, the frisbee appears relatively large in the frame compared to its actual size, suggesting it is near the camera, while the person’s body is more distant.\n\nBased on these cues — especially **overlap** and **relative size** — the **frisbee** appears closer to the camera than the person.\n\n<answer>frisbee</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0011197",
+    "image": "./data/coco/COCO_train2014_000000059351.jpg",
+    "question": "Rank these objects from nearest to farthest from the camera: dog, person, horse.",
+    "level": "L3",
+    "category": "depth",
+    "teacher_answer": "horse, person, dog",
+    "teacher_full_response": "Looking at the image from the viewer's perspective:\n\n- The **horse** is in the foreground, closest to the camera, with its rear end visible and partially obscuring the person walking behind it.\n- The **person** is walking directly behind the horse, slightly further back than the horse.\n- The **dog** is further down the path, ahead of the person and horse, near the middle of the path and closer to the buildings in the background.\n\nThus, from nearest to farthest: **horse, person, dog**.\n\n<answer>horse, person, dog</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0043341",
+    "image": "./data/coco/COCO_train2014_000000455744.jpg",
+    "question": "Is the sink closer to the camera than the cat? Describe the depth relationship.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "The sink is closer to the camera than the cat; the cat is positioned behind the sink and near the door, making it appear smaller and less detailed.",
+    "teacher_full_response": "The sink is closer to the camera than the cat. The sink occupies the left foreground of the image, with its curved edge prominently visible and appearing larger due to proximity. The cat is positioned further back, partially tucked behind the sink and near the door, making it appear smaller and less detailed. The cat’s body is also partially obscured by the sink, reinforcing that it lies behind it in depth. The floor tiles in front of the sink are clearly visible, while the tiles near the cat are less distinct, further indicating the cat is farther away.\n\n<answer>The sink is closer to the camera than the cat; the cat is positioned behind the sink and near the door, making it appear smaller and less detailed.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0023674",
+    "image": "./data/coco/COCO_train2014_000000167369.jpg",
+    "question": "Is the sheep closer to the camera than the person? Describe the depth relationship.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "The person is closer to the camera than the sheep. The person is in the foreground, while the sheep are in the middle ground, separated by a barrier or railing.",
+    "teacher_full_response": "The sheep are located in the middle ground of the image, while the person is in the foreground, positioned on the left side with their back to the camera. The person’s head and shoulders are closer to the viewer than the sheep, which are further back in the scene, standing on what appears to be a raised platform or enclosure. The person’s hand is resting on a railing or barrier that separates them from the sheep, indicating a physical depth barrier. Therefore, the person is closer to the camera than the sheep.\n\n<answer>The person is closer to the camera than the sheep. The person is in the foreground, while the sheep are in the middle ground, separated by a barrier or railing.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0005713",
+    "image": "./data/coco/COCO_train2014_000000150502.jpg",
+    "question": "Which object appears closer to the camera, the scissors or the book? Use visual depth cues.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "scissors",
+    "teacher_full_response": "To determine which object is closer to the camera, we can use visual depth cues such as **overlap**, **relative size**, and **focus/sharpness**.\n\n- **Overlap**: The scissors are positioned on top of the yellow package (labeled \"3X\") and partially overlap it. The book (or box) on the right side is further back and does not overlap the scissors or the yellow package. This suggests the scissors are in front of the book.\n  \n- **Relative size**: The scissors appear larger in the image compared to the book, which is partially cut off on the right. Since objects closer to the camera appear larger, this supports the scissors being closer.\n\n- **Focus and clarity**: The scissors and the immediate packaging they rest on are in sharper focus, while the book on the far right is slightly less in focus and more blurred, indicating it is farther away.\n\nBased on these cues — especially overlap and focus — the **scissors** are closer to the camera than the book.\n\n<answer>scissors</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0026494",
+    "image": "./data/coco/COCO_train2014_000000297251.jpg",
+    "question": "Is the handbag closer to the camera than the giraffe? Describe the depth relationship.",
+    "level": "L2",
+    "category": "depth",
+    "teacher_answer": "The handbag is closer to the camera than the giraffe. It is in the foreground, while the giraffes are behind a chain-link fence in the background.",
+    "teacher_full_response": "The handbag is closer to the camera than the giraffe. The handbag is visible in the bottom-left foreground, partially held by the person on the far left, and appears in front of the wooden picket fence. The giraffes are located behind a chain-link fence in the mid-to-background of the image, within an enclosure. The woman and child are in the foreground, between the handbag and the giraffes, but still farther from the camera than the handbag. The handbag is at the very front edge of the scene, making it the closest object in the image. The depth order from closest to farthest is: handbag → woman and child → wooden fence → chain-link fence → giraffes → trees and sky.\n\n<answer>The handbag is closer to the camera than the giraffe. It is in the foreground, while the giraffes are behind a chain-link fence in the background.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0036250",
+    "image": "./data/coco/COCO_train2014_000000288797.jpg",
+    "question": "Describe the relative positions of the person, the skis, and the person.",
+    "level": "L1",
+    "category": "relational",
+    "teacher_answer": "The person is standing on the skis, which are directly beneath them and aligned with their feet as they ski downhill. There is no second person in the image.",
+    "teacher_full_response": "The image shows a person skiing down a snowy slope. The person is positioned centrally in the upper-middle portion of the frame, moving downhill. The skis are directly beneath the person, aligned with their feet and extending slightly forward and backward along the snow-covered path. The person is standing on the skis, which are parallel to each other and oriented in the direction of motion. There is no second person visible in the image.\n\n<answer>The person is standing on the skis, which are directly beneath them and aligned with their feet as they ski downhill. There is no second person in the image.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0007496",
+    "image": "./data/coco/COCO_train2014_000000077814.jpg",
+    "question": "Is the person in front of or behind the skis in this scene?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "in front of",
+    "teacher_full_response": "The person is standing on the skis, which means they are positioned directly above and in front of the skis from the viewer's perspective. The skis are attached to the person’s boots and extend forward from their feet, so the person is clearly in front of the skis in terms of spatial orientation — their body is positioned above and ahead of the skis as they ski.\n\n<answer>in front of</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0015062",
+    "image": "./data/coco/COCO_train2014_000000491229.jpg",
+    "question": "Is the suitcase in front of or behind the backpack in this scene?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "in front of",
+    "teacher_full_response": "The suitcase is in front of the backpack. The man is holding the black suitcase in his right hand, and it is positioned in front of his body, while the green backpack is on his back, behind him. The suitcase is also closer to the camera than the backpack.\n\n<answer>in front of</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0046552",
+    "image": "./data/coco/COCO_train2014_000000319961.jpg",
+    "question": "What object is directly above the person in this image?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "There is no visible object directly above the person; the background is a dark wall or fence.",
+    "teacher_full_response": "The object directly above the person in the image is the sky, though it is not visible in the frame. The background consists of a dark blue or black wall or fence that appears to be part of the tennis court enclosure. There is no visible object directly above the person’s head within the image frame.\n\n<answer>There is no visible object directly above the person; the background is a dark wall or fence.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0027563",
+    "image": "./data/coco/COCO_train2014_000000547308.jpg",
+    "question": "Is the fire hydrant to the left or to the right of the handbag?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "left",
+    "teacher_full_response": "The fire hydrant is in the foreground, centered in the image, and appears to be to the left of the handbag. The handbag is being carried by a person walking in the background on the right side of the image, near the center-right. Since the fire hydrant is closer to the viewer and positioned more toward the left side of the frame relative to the handbag’s position, it is to the left of the handbag.\n\n<answer>left</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0005472",
+    "image": "./data/coco/COCO_train2014_000000465058.jpg",
+    "question": "What object is directly above the frisbee in this image?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "the man's hand",
+    "teacher_full_response": "Looking at the image, the frisbee is in mid-air, and directly above it is the hand of the man in the green shirt who is jumping and reaching out. His right hand is extended toward the frisbee, and it is positioned just above the frisbee, suggesting he is either throwing or catching it.\n\n<answer>the man's hand</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0015717",
+    "image": "./data/coco/COCO_train2014_000000123980.jpg",
+    "question": "Is the person closer to the left edge or the right edge of the image?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "left edge",
+    "teacher_full_response": "The person closest to the left edge of the image is the child with dark hair wearing a green swim vest, who is partially submerged in the water on the far left side. This individual is positioned more toward the left edge compared to all other people in the image.\n\n<answer>left edge</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0009289",
+    "image": "./data/coco/COCO_train2014_000000118404.jpg",
+    "question": "Which object is in the top-left region of the image?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "White building with windows and a Travelodge sign",
+    "teacher_full_response": "The top-left region of the image contains a white building with multiple windows. The building has a clean, rectangular facade with evenly spaced windows, and a small section of a storefront or awning is visible near the bottom edge of this region. There is also a portion of a sign that appears to read \"Travelodge\" on the ground floor, indicating a commercial establishment. The sky above is overcast and bright white, blending with the upper part of the building.\n\n<answer>White building with windows and a Travelodge sign</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0049097",
+    "image": "./data/coco/COCO_train2014_000000234175.jpg",
+    "question": "Describe the spatial arrangement: where is the giraffe relative to the person?",
+    "level": "L1",
+    "category": "relational",
+    "teacher_answer": "The giraffe is in the foreground, to the right and closer to the camera, while the person is in the background, to the left and further away.",
+    "teacher_full_response": "The giraffe is positioned in the foreground, standing on a gravel surface within an enclosed area defined by horizontal wires or cables. The person is located in the background, behind the giraffe and to the left side of the image, near a small building or structure. The person appears to be standing at a distance, outside the immediate enclosure of the giraffe, and is partially obscured by the enclosure's fencing. The giraffe is closer to the camera and occupies the central to right portion of the frame, while the person is further back and to the left.\n\n<answer>The giraffe is in the foreground, to the right and closer to the camera, while the person is in the background, to the left and further away.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0029187",
+    "image": "./data/coco/COCO_train2014_000000310897.jpg",
+    "question": "What object is directly above the mouse in this image?",
+    "level": "L2",
+    "category": "relational",
+    "teacher_answer": "Book titled \"Essential System Administration\"",
+    "teacher_full_response": "The object directly above the mouse is a book titled \"Essential System Administration\" by O'Reilly. It is stacked on top of another book, and both are positioned behind the two white computer mice on the desk. The book is placed horizontally, and its spine is visible, showing the title and publisher.\n\n<answer>Book titled \"Essential System Administration\"</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0031159",
+    "image": "./data/coco/COCO_train2014_000000039203.jpg",
+    "question": "If you approached from the camera's position, which object would block your path first?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "the person in the foreground on the right",
+    "teacher_full_response": "From the camera's position, looking into the scene, the first object that would block your path as you move forward is the person in the foreground on the right side of the image — their silhouette is closest to the viewer and occupies the lower right portion of the frame. They are seated and appear to be facing the window, so their back and shoulders would be the first physical barrier encountered.\n\n<answer>the person in the foreground on the right</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0015380",
+    "image": "./data/coco/COCO_train2014_000000320946.jpg",
+    "question": "From the camera's perspective, which direction would you turn to face the sink?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "right",
+    "teacher_full_response": "From the camera's perspective, the sink is located to the right of the toilet. Since the toilet is centered in the frame and the sink is positioned to its right, you would turn to your right to face the sink.\n\n<answer>right</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0042006",
+    "image": "./data/coco/COCO_train2014_000000278028.jpg",
+    "question": "From the camera's point of view, is the snowboard within arm's reach or far away?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "within arm's reach",
+    "teacher_full_response": "From the camera's point of view, the snowboard is on the ground directly in front of the person in the yellow shirt, who is crouched down and appears to be adjusting or holding it. The person’s arms are extended toward the board, and the board is positioned very close to their body—within arm’s reach. There is no significant distance between the person’s hands and the snowboard.\n\n<answer>within arm's reach</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0039928",
+    "image": "./data/coco/COCO_train2014_000000159626.jpg",
+    "question": "Walking straight forward from the camera into this scene, what objects would you encounter first?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "the silver vase with plant, the dark cylindrical container, and the Timex clock/radio on the white shelf",
+    "teacher_full_response": "Walking straight forward from the camera into the scene, the first objects you would encounter are the three items placed on the white shelf: from left to right, a tall silver vase holding a plant with reddish-brown leaves, a shorter dark cylindrical container (possibly another vase or decorative object), and a black and silver Timex digital clock/radio. These objects are positioned closest to the viewer and rest on the shelf, which is mounted on the wall. Since the shelf is the foremost surface in the image, these three objects are the first encountered as you move forward.\n\n<answer>the silver vase with plant, the dark cylindrical container, and the Timex clock/radio on the white shelf</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0047092",
+    "image": "./data/coco/COCO_train2014_000000339643.jpg",
+    "question": "Imagine you are the camera. Describe the spatial layout of the objects around you.",
+    "level": "L1",
+    "category": "egocentric",
+    "teacher_answer": "From the camera's perspective, the scene is a spacious indoor event hall with a patterned blue and red carpet. In the foreground, several women are engaged in movement or dance, positioned across the center of the frame. To the right, a table with a gold tablecloth holds event materials. The background features beige walls with white trim and wall-mounted lights, with more people visible further back, creating depth. The overall layout is open and dynamic, centered around the active participants.",
+    "teacher_full_response": "From my vantage point as the camera, I am positioned at a low to medium height, capturing a wide-angle view of a large indoor space, likely a conference or event hall. The floor is covered with a patterned carpet in shades of blue, red, and cream, featuring floral or abstract motifs. In the foreground, several women are actively engaged in what appears to be a dance or movement activity. The woman closest to me on the left is wearing a sleeveless, textured dress and is mid-motion, her arms extended. To her right, another woman in dark clothing is also moving, her arms bent and body leaning forward. Further to the right, a woman in a light-colored top and dark pants stands with her arms crossed, observing or pausing. Behind her, another woman in a white shirt and black pants is standing near a table draped with a gold or beige cloth, which holds microphones and other event materials. \n\nThe background features beige walls with white trim and decorative sconces mounted on the walls, providing warm lighting. There are additional people scattered in the background, some standing in groups, others moving. The room extends into the distance, with more lighting fixtures visible on the ceiling and a sense of depth created by the receding walls and carpet pattern. The overall layout suggests an open, communal space designed for gatherings or interactive events, with the participants centered in the middle of the room, creating a dynamic, lively atmosphere.\n\n<answer>From the camera's perspective, the scene is a spacious indoor event hall with a patterned blue and red carpet. In the foreground, several women are engaged in movement or dance, positioned across the center of the frame. To the right, a table with a gold tablecloth holds event materials. The background features beige walls with white trim and wall-mounted lights, with more people visible further back, creating depth. The overall layout is open and dynamic, centered around the active participants.</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0046714",
+    "image": "./data/coco/COCO_train2014_000000287369.jpg",
+    "question": "From the camera's point of view, is the bowl within arm's reach or far away?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "within arm's reach",
+    "teacher_full_response": "The bowl appears to be within arm’s reach. The perspective is close-up and slightly angled downward, suggesting the camera is positioned near the table surface, likely held by someone sitting or standing close to the bowl. The details of the food, such as the texture of the broccoli, tofu, and sesame seeds, are clearly visible, which would not be the case if the bowl were far away. Additionally, the wooden cutting board and striped placemat in the background are also in focus, indicating a short distance from the camera.\n\n<answer>within arm's reach</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0026603",
+    "image": "./data/coco/COCO_train2014_000000431904.jpg",
+    "question": "From the camera's perspective, which direction would you turn to face the skateboard?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "left",
+    "teacher_full_response": "The skateboard in question is being ridden by the person on the left side of the image, who is skating away from the camera and slightly to the left. From the camera’s perspective, to face the skateboard, you would need to turn **left**.\n\n<answer>left</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0045163",
+    "image": "./data/coco/COCO_train2014_000000302230.jpg",
+    "question": "Standing at the camera position, which object is easiest to pick up without moving?",
+    "level": "L1",
+    "category": "egocentric",
+    "teacher_answer": "white electric kettle",
+    "teacher_full_response": "Standing at the camera position, the object that is easiest to pick up without moving is the white electric kettle, which is sitting on the countertop in the center of the cabinet’s lower section. It is positioned directly in front, at a comfortable height and within easy reach, with no obstructions nearby. Other items like the dish soap bottle, the sink, or the utensils are either in the sink, behind the kettle, or slightly to the side, making the kettle the most accessible.\n\n<answer>white electric kettle</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0006016",
+    "image": "./data/coco/COCO_train2014_000000043479.jpg",
+    "question": "Walking straight forward from the camera into this scene, what objects would you encounter first?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "Water surface and rocks",
+    "teacher_full_response": "Walking straight forward from the camera into the scene, you would first encounter the dark, textured surface of the water in the immediate foreground. This area shows small ripples and some white foam, indicating gentle wave motion. Just beyond this, closer to the middle ground, you would reach a line of dark, exposed rocks or a low shoreline feature jutting out from the water. These rocks are visible as a horizontal band across the frame, slightly to the right of center. Further out, you would encounter the open expanse of the sea stretching toward the horizon, with the kite (likely from a kitesurfer) floating in the air above the water. The kitesurfer themselves is not clearly visible, but their presence is implied by the kite and the small splash or wake visible near the rocks.\n\nThe first physical objects encountered would be the water surface and then the rocks.\n\n<answer>Water surface and rocks</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0029356",
+    "image": "./data/coco/COCO_train2014_000000028924.jpg",
+    "question": "If you approached from the camera's position, which object would block your path first?",
+    "level": "L3",
+    "category": "egocentric",
+    "teacher_answer": "tennis ball",
+    "teacher_full_response": "The tennis ball would block your path first, as it is in the foreground and closest to the camera’s viewpoint, located just in front of the player and near the bottom-left of the frame. The player and the racket are further back, and the court surface extends behind them.\n\n<answer>tennis ball</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0002421",
+    "image": "./data/coco/COCO_train2014_000000471913.jpg",
+    "question": "Which would you reach first walking toward the scene: the person or the donut?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "the person",
+    "teacher_full_response": "The person is in the foreground, holding the donut close to their mouth. Since the person is physically closer to the viewer than the donut (which is in their hands), if you were walking toward the scene, you would reach the person first — the donut is part of the person’s body position and not a separate object ahead of them. The donut is not located in front of the person; it’s being held by them.\n\n<answer>the person</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0041233",
+    "image": "./data/coco/COCO_train2014_000000011475.jpg",
+    "question": "Estimate the approximate distance ratio between the sink and the cat relative to the camera.",
+    "level": "L2",
+    "category": "metric",
+    "teacher_answer": "1:1",
+    "teacher_full_response": "The cat is standing on the sink, so the cat and the sink are at approximately the same distance from the camera. Since the cat is positioned directly on top of the sink, there is no significant depth difference between them. Therefore, the distance ratio between the sink and the cat relative to the camera is approximately 1:1.\n\n<answer>1:1</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0011654",
+    "image": "./data/coco/COCO_train2014_000000408431.jpg",
+    "question": "Which would you reach first walking toward the scene: the keyboard or the chair?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "the chair",
+    "teacher_full_response": "When walking toward the scene, you would reach the chair first. The chair is positioned in the foreground on the right side of the image, closer to the viewer, while the keyboard is on the desk further back. The chair’s backrest is visible on the right edge of the frame, indicating it is in front of the desk setup.\n\n<answer>the chair</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0024095",
+    "image": "./data/coco/COCO_train2014_000000385667.jpg",
+    "question": "Which would you reach first walking toward the scene: the cup or the clock?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "the clock",
+    "teacher_full_response": "When walking toward the scene, you would reach the clock first. The clock is positioned higher up on the wall, above the wooden cabinet that contains the cup. Since the cup is located inside a lower cabinet, it is physically further down and would be reached after the clock when approaching the scene from a standing position.\n\n<answer>the clock</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0035098",
+    "image": "./data/coco/COCO_train2014_000000499867.jpg",
+    "question": "Which would you reach first walking toward the scene: the book or the vase?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "vase",
+    "teacher_full_response": "When walking toward the scene, the vase would be reached first. The vase is positioned on the right side of the mantel, sitting on a stack of books and decorative items, and is closer to the front of the arrangement. The book is located on the lower shelf of the wooden cabinet, which is further back and below the mantel. Therefore, the vase is in the foreground and closer to the viewer than the book on the shelf.\n\n<answer>vase</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0015176",
+    "image": "./data/coco/COCO_train2014_000000248745.jpg",
+    "question": "Which would you reach first walking toward the scene: the person or the frisbee?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "the person",
+    "teacher_full_response": "The frisbee is in the air, above and in front of the person jumping to catch it. Since the frisbee is airborne and closer to the viewer than the person (who is further back in the field), walking toward the scene would bring you to the frisbee first — assuming you are moving directly toward the point where the frisbee is located in the air.\n\nHowever, since the frisbee is a small object in mid-air and the person is standing on the ground, in practical terms, you would reach the person first because you cannot physically interact with the frisbee until it lands (unless you jump or reach up, which isn’t implied). But the question asks which you would reach first *walking toward the scene*, meaning along the ground.\n\nGiven that the frisbee is in the air and the person is on the ground, and assuming you are walking straight toward the scene along the ground, you would reach the person’s position first — the frisbee is not on the ground, so you cannot \"reach\" it while walking on the ground unless it lands.\n\nTherefore, the person is the first thing you would reach while walking on the ground.\n\n<answer>the person</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0046981",
+    "image": "./data/coco/COCO_train2014_000000073418.jpg",
+    "question": "Which would you reach first walking toward the scene: the teddy bear or the person?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "teddy bear",
+    "teacher_full_response": "When walking toward the scene, the teddy bear is located on the lower left bunk bed, which is closer to the foreground of the image. The group of people is seated on the floor and on the middle bunk bed, positioned further back in the room. Therefore, the teddy bear is spatially closer to the viewer’s perspective and would be reached first.\n\n<answer>teddy bear</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0015552",
+    "image": "./data/coco/COCO_train2014_000000556145.jpg",
+    "question": "Which would you reach first walking toward the scene: the skis or the person?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "the person",
+    "teacher_full_response": "The person is standing on the skis, so if you are walking toward the scene, you would reach the person first — because the skis are attached to the person’s feet and are part of the same entity. The person is the visible figure, and the skis are directly beneath them. Therefore, you would encounter the person (and their skis) at the same moment, but the person is the primary subject.\n\n<answer>the person</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0015933",
+    "image": "./data/coco/COCO_train2014_000000524044.jpg",
+    "question": "Which would you reach first walking toward the scene: the bench or the handbag?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "the handbag",
+    "teacher_full_response": "Looking at the image from the perspective of walking toward the scene (i.e., from the bottom of the image toward the top), we need to determine which object is closer to the viewer: the bench or the handbag.\n\n- The handbag is being carried by a woman in a patterned skirt, standing near the tree on the right side of the image. She is relatively close to the foreground, near the bottom-right area of the frame.\n- The bench is visible in the background on the right side, behind the woman with the handbag and further back near the fence. It is clearly farther away from the viewer than the woman with the handbag.\n\nTherefore, if walking toward the scene, you would reach the handbag first, as it is closer to the foreground.\n\n<answer>the handbag</answer>",
+    "confidence": 5
+  },
+  {
+    "id": "coco_spatial_0044420",
+    "image": "./data/coco/COCO_train2014_000000330914.jpg",
+    "question": "Which would you reach first walking toward the scene: the banana or the sandwich?",
+    "level": "L3",
+    "category": "metric",
+    "teacher_answer": "the sandwich",
+    "teacher_full_response": "The image shows a close-up of a sandwich with banana slices and cheese sticks on top. The banana slices are on top of the sandwich, so they are part of the sandwich itself. Since the banana is on the sandwich, they are not separate objects in space — the banana is physically integrated into the sandwich.\n\nTherefore, if you were walking toward the scene, you would reach the sandwich first, and the banana would be on top of it — meaning you would encounter the banana at the same time as the sandwich, not before.\n\n<answer>the sandwich</answer>",
+    "confidence": 5
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "requested": 10000,
+  "selected": 10000,
+  "seed": 42,
+  "skipped_no_id": 0,
+  "total_by_bucket": {
+    "B5_other": 24973,
+    "B1_spatial_conf5": 19910,
+    "B2_spatial_conf4": 4659,
+    "B4_spatial_other": 431,
+    "B3_general_spatial_question_conf5": 27
+  },
+  "chosen_by_bucket": {
+    "B1_spatial_conf5": 10000
+  }
+}
