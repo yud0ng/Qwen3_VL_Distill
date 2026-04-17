@@ -1,0 +1,24 @@
+# CP-5 LoRA 消融基线（Variant A + clean_train）
+# 与全参数 A/A+ 关键超参保持一致：lr=2e-5, cosine, bf16, ZeRO-2(通过 deepspeed_config), ga=4
+train_jsonl: "data/clean_train.jsonl"
+out_dir: "runs/variant_a_clean_train_lora"
+deepspeed_config: "configs/deepspeed_zero2_bf16_c_task.json"
+
+variant: A
+input_format: chat
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+
+lr: 2.0e-5
+lr_scheduler: cosine
+warmup_ratio: 0.03
+
+bf16: true
+num_epochs: 1
+max_steps: 0
+max_length: 4096
+save_every: 500
+seed: 42
+
+# 运行时由脚本覆盖：--lora_r {16|64} --lora_alpha {32|128}
+lora_r: 64
+lora_alpha: 128

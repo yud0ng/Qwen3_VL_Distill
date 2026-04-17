@@ -14,6 +14,9 @@ kd_pipeline/data/c_task_splits/teacher_spatial.jsonl
 kd_pipeline/data/teacher_topk.jsonl
 kd_pipeline/data/clean_train.jsonl
 kd_pipeline/data/teacher_smoke_local.jsonl
+kd_pipeline/data/teacher_responses_*.jsonl
+kd_pipeline/data/cot_responses_new_*.jsonl
+kd_pipeline/data/clean_train_teacher_cot_*.jsonl
 
 *.safetensors
 *.log

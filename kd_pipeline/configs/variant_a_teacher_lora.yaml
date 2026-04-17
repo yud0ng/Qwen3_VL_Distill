@@ -1,0 +1,27 @@
+# CP-5 LoRA 消融（teacher_responses 格式）
+# 可配合 --train_jsonl 覆盖具体文件（如合并后的 teacher+cot 数据）。
+train_jsonl: "data/teacher_responses.jsonl"
+out_dir: "runs/variant_a_teacher_lora"
+deepspeed_config: "configs/deepspeed_zero2_bf16_c_task.json"
+
+variant: A
+input_format: teacher_responses
+teacher_target: answer_only
+min_confidence: 0
+skip_missing_image: true
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+
+lr: 2.0e-5
+lr_scheduler: cosine
+warmup_ratio: 0.03
+
+bf16: true
+num_epochs: 1
+max_steps: 0
+max_length: 4096
+save_every: 500
+seed: 42
+
+# 运行时由脚本覆盖：--lora_r {16|64} --lora_alpha {32|128}
+lora_r: 64
+lora_alpha: 128

@@ -40,6 +40,27 @@ CUDA_VISIBLE_DEVICES=0 python scripts/train_distill.py --config configs/variant_
 - **评测示例**：`bash scripts/eval_lmms_eval_example.sh`（需 `pip install -r requirements-eval.txt`）
 - **合并 LoRA 供评测**：`python scripts/export_merged_model.py --adapter_dir runs/.../adapter_final --out_dir exports/merged --bf16`
 
+## CP-5 LoRA 消融（单卡/多卡）
+
+在相同数据与 Variant A 下，对比 `r=16` 与 `r=64`（全参数结果复用 CP-4）。
+
+```bash
+cd kd_pipeline
+# 默认单卡（推荐先试，通常比双卡更稳）
+bash scripts/run_variant_a_lora_ablation.sh
+
+# 双卡版本（保留原流程）
+MODE=multi bash scripts/run_variant_a_lora_ablation.sh
+
+# teacher_responses 格式（你当前手头 JSONL）
+BASE_CFG=configs/variant_a_teacher_lora.yaml TRAIN_JSONL=/path/to/teacher_or_merged.jsonl \
+  bash scripts/run_variant_a_lora_ablation.sh
+```
+
+- 默认读取 `data/clean_train.jsonl`；若路径不同可设：`TRAIN_JSONL=/path/to/clean_train.jsonl`
+- 每个 rank 产物输出到：`runs/${OUT_PREFIX}_r{16|64}_{single|multi}`（默认 `OUT_PREFIX=variant_a_lora`）
+- 日志输出到：`runs/c_task_logs/variant_a_lora_r*`
+
 ## 一键冒烟
 
 ```bash
