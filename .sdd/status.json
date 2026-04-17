@@ -1,0 +1,34 @@
+{
+  "phase": "5_complete",
+  "phase_name": "Complete — ready for release",
+  "created_utc": "2026-04-16",
+  "feature": "Role D Data Pipeline + Demo",
+  "owner": "user (role D on team)",
+  "scope": "Data filtering, logit subset selection, L1/L2/L3 classifier, teacher cache, Gradio demo, error sampling",
+  "waves_completed": [
+    "Wave 1: shared utils (spatial_vocab, lmms_eval_io, safe_html, csv_safe)",
+    "Wave 2: script refactors (classify, filter, select, sample_error)",
+    "Wave 3: demo refactors (app + build_teacher_cache)",
+    "Wave 4: infra (log_samples patch, e2e, Makefile, coverage, D_SCRIPTS_USAGE)"
+  ],
+  "critical_fixes": 7,
+  "medium_fixes": 11,
+  "test_counts": {
+    "before": 77,
+    "after": 225,
+    "skipped": 1
+  },
+  "coverage": {
+    "src/csv_safe": 100,
+    "src/spatial_vocab": 98,
+    "src/safe_html": 97,
+    "src/lmms_eval_io": 94,
+    "demo/build_teacher_cache": 93,
+    "scripts/classify_spatial_level": 93,
+    "scripts/filter_cot_quality": 93,
+    "scripts/sample_error_cases": 93,
+    "scripts/select_logit_subset": 95,
+    "demo/app": 48
+  },
+  "bandit": "0 HIGH, 0 MEDIUM, 3 LOW (expected random.Random)"
+}

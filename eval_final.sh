@@ -41,12 +41,20 @@ mkdir -p "$LOG_DIR"
 
 MODEL_ARGS="pretrained=${CKPT_PATH},load_in_4bit=True,max_pixels=401408,enable_thinking=False"
 
+# 默认开启 --log_samples（per-sample JSONL）以支持分层 Recovery% 与误差分析。
+# 如需兼容旧行为，设 LOG_SAMPLES=0 禁用。
+LOG_SAMPLES_FLAG=""
+if [[ "${LOG_SAMPLES:-1}" == "1" ]]; then
+    LOG_SAMPLES_FLAG="--log_samples"
+fi
+
 run_task() {
     local task="$1"
     echo ""
     echo "------------------------------------------------------------"
     echo "  Running: $task"
     echo "  Started: $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "  log_samples: ${LOG_SAMPLES:-1}"
     echo "------------------------------------------------------------"
     PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
     HF_HOME=$HF_CACHE \
@@ -55,6 +63,7 @@ run_task() {
         --model_args "$MODEL_ARGS" \
         --tasks "$task" \
         --batch_size 1 \
+        ${LOG_SAMPLES_FLAG} \
         --output_path "$LOG_DIR"
     echo "  Finished $task: $(date '+%Y-%m-%d %H:%M:%S')"
 }
