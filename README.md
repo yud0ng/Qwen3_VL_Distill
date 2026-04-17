@@ -108,3 +108,39 @@
 ### 4. Filter Results
 - **Samples (Conf >= 4):** 48,735
 - **Pass Rate:** 97.5%
+
+---
+
+# Teacher Response (with CoT and filter) - Statistics Report
+
+* **Total written:** 12,891 (resume base: 0, this run: 12,891)
+* **Rejected by filter:** 7,109 | **Pass rate:** 64.5% *(this run only)*
+  * ↳ *too short:* 20
+  * ↳ *low density:* 526
+  * ↳ *no pivot word:* 6,645
+* **Has thinking:** 12,891 (100.0%)
+
+---
+
+### Thinking-Chain Length Distribution
+
+| Length | Count | Percentage |
+| :--- | :--- | :--- |
+| **<50** | 346 | 2.7% |
+| **50-99** | 4,543 | 35.2% |
+| **100-199** | 5,642 | 43.8% |
+| **200-499** | 2,044 | 15.9% |
+| **500+** | 316 | 2.5% |
+
+---
+
+### Confidence Distribution
+
+| Confidence Level | Count | Percentage |
+| :--- | :--- | :--- |
+| **conf=5** | 10,337 | 80.2% |
+| **conf=4** | 2,309 | 17.9% |
+| **conf=3** | 177 | 1.4% |
+| **conf=2** | 37 | 0.3% |
+| **conf=1** | 9 | 0.1% |
+| **conf=missing**| 22 | 0.2% |
