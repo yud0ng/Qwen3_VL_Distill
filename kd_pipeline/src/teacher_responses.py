@@ -112,7 +112,11 @@ def row_teacher_responses(
     if conf is not None and int(conf) < min_confidence:
         return "", "", None, {"skip": True, "reason": "low_confidence", "id": obj.get("id")}
 
-    asst = normalize_teacher_text(str(raw), target=target)
+    # 与 gen_all.py extract_batch_logits_and_hidden：有 response 走 normalize；无则与教师 forward 相同字符串
+    if (raw or "").strip():
+        asst = normalize_teacher_text(str(raw), target=target)
+    else:
+        asst = re.sub(r"</?think>", "", str(obj.get("thinking") or "")).strip()
     if not q or not asst:
         return "", "", None, {"skip": True, "reason": "empty_q_or_a", "id": obj.get("id")}
 

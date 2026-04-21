@@ -1,0 +1,32 @@
+# Variant C：CE + top-k KL；训练数据与 teacher_topk 均来自 teacher_all 管线。
+# 路径：请先用 scripts/localize_teacher_jsonl.py 把集群 image 换成本地 datasets，
+# 再 convert_teacher_all_to_topk 生成 teacher_topk（见 README 或下方命令）。
+train_jsonl: "data/teacher_all.local.jsonl"
+teacher_topk_jsonl: "data/teacher_topk_from_teacher_all.jsonl"
+out_dir: "runs/variant_c_teacher_all"
+deepspeed_config: "configs/deepspeed_zero2_bf16_c_task.json"
+
+variant: C
+input_format: teacher_responses
+teacher_target: answer_only
+min_confidence: 0
+skip_missing_image: true
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+
+lam1: 0.5
+lam3: 0.5
+temperature: 4.0
+
+lr: 2.0e-5
+lr_scheduler: cosine
+warmup_ratio: 0.03
+
+bf16: true
+num_epochs: 1
+max_steps: 0
+max_length: 4096
+save_every: 500
+seed: 42
+
+lora_r: 64
+lora_alpha: 128

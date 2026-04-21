@@ -1,16 +1,7 @@
 #!/usr/bin/env python3
 """
-统一训练脚本：Variant A / B / C / BC（λ 置 0 可关对应项）；可选 DeepSpeed ZeRO-2。
-LoRA：--lora_r / --lora_rank 为 0 时全参数微调（显存大）。
-
-单卡 Variant A:
-  python scripts/train_distill.py --train_jsonl data/sample_train.jsonl --variant A --max_steps 10
-
-teacher_responses + DeepSpeed 双卡:
-  deepspeed --num_gpus=2 scripts/train_distill.py --config configs/train_teacher_responses.yaml \\
-    --deepspeed_config configs/deepspeed_zero2_bf16.json --variant A
+统一训练：Variant A / B / C / BC；可选 DeepSpeed ZeRO-2 + LoRA。
 """
-
 from __future__ import annotations
 
 import argparse
@@ -72,14 +63,6 @@ def _shard_rows_padded(rows: list, rank: int, world_size: int) -> list:
     return rp[rank::world_size]
 
 
-def _load_ds_config_json(path: Path, world_size: int) -> dict:
-    cfg = json.loads(path.read_text(encoding="utf-8"))
-    micro = int(cfg.get("train_micro_batch_size_per_gpu", 1))
-    ga = int(cfg.get("gradient_accumulation_steps", 1))
-    cfg["train_batch_size"] = micro * world_size * ga
-    return cfg
-
-
 def _read_gradient_accumulation_steps(deepspeed_config_path: Path | None) -> int:
     if not deepspeed_config_path:
         return 1
@@ -95,11 +78,6 @@ def _estimate_optimizer_steps(
     max_steps: int,
     gradient_accumulation_steps: int,
 ) -> int:
-    """
-    估算一次训练中的 **optimizer step** 次数（与 DeepSpeed grad accumulation 一致）。
-    训练循环每步一次 forward；每 ga 次 backward 对应约一次 optimizer step。
-    max_steps>0 时按每 rank 至多 max_steps 次 forward（与现有 break 逻辑一致）。
-    """
     ws = max(1, world_size)
     shard = _shard_rows_padded(rows, 0, ws)
     forwards = len(shard) * int(num_epochs)
@@ -107,18 +85,6 @@ def _estimate_optimizer_steps(
         forwards = min(forwards, int(max_steps))
     ga = max(1, int(gradient_accumulation_steps))
     return max(1, (forwards + ga - 1) // ga)
-
-
-def _strip_deepspeed_cli_for_init(ns: argparse.Namespace) -> argparse.Namespace:
-    o = copy.copy(ns)
-    for k in ("deepspeed_config", "deepscale_config"):
-        if hasattr(o, k):
-            setattr(o, k, None)
-    if hasattr(o, "deepspeed"):
-        setattr(o, "deepspeed", False)
-    if hasattr(o, "deepscale"):
-        setattr(o, "deepscale", False)
-    return o
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -129,70 +95,28 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--teacher_topk_jsonl", type=str, default=None)
     p.add_argument("--student_model_id", type=str, default=None)
     p.add_argument("--variant", choices=["A", "B", "C", "BC"], default=None)
-    p.add_argument("--lam1", type=float, default=None, help="answer CE 权重（B/C/BC）")
-    p.add_argument("--lam2", type=float, default=None, help="trace CE 权重（B/BC）；0=关闭")
-    p.add_argument("--lam3", type=float, default=None, help="KL 权重（C/BC）；0=关闭")
+    p.add_argument("--lam1", type=float, default=None)
+    p.add_argument("--lam2", type=float, default=None)
+    p.add_argument("--lam3", type=float, default=None)
     p.add_argument("--temperature", type=float, default=None)
     p.add_argument("--lr", type=float, default=None)
     p.add_argument("--max_steps", type=int, default=None, help="0 = full epoch(s)")
     p.add_argument("--num_epochs", type=int, default=None)
-    p.add_argument(
-        "--lora_r",
-        "--lora_rank",
-        type=int,
-        default=None,
-        dest="lora_r",
-        help="LoRA rank；0=全参数微调；16/64 等",
-    )
+    p.add_argument("--lora_r", "--lora_rank", type=int, default=None, dest="lora_r")
     p.add_argument("--lora_alpha", type=int, default=None)
     p.add_argument("--bf16", action=argparse.BooleanOptionalAction, default=None)
     p.add_argument("--out_dir", type=str, default=None)
-    p.add_argument(
-        "--save_every",
-        type=int,
-        default=None,
-        help="每 N 个 optimizer step 存 checkpoint（0=仅 adapter_final）",
-    )
+    p.add_argument("--save_every", type=int, default=None)
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--resume_adapter", type=str, default=None)
-    p.add_argument(
-        "--input_format",
-        type=str,
-        choices=["chat", "teacher_responses"],
-        default=None,
-    )
-    p.add_argument(
-        "--teacher_target",
-        type=str,
-        choices=["answer_only", "full"],
-        default=None,
-    )
+    p.add_argument("--input_format", type=str, choices=["chat", "teacher_responses"], default=None)
+    p.add_argument("--teacher_target", type=str, choices=["answer_only", "full"], default=None)
     p.add_argument("--min_confidence", type=int, default=None)
-    p.add_argument(
-        "--skip_missing_image",
-        action=argparse.BooleanOptionalAction,
-        default=None,
-    )
-    p.add_argument(
-        "--max_length",
-        type=int,
-        default=None,
-        help="序列最大 token（过小会裁掉图像占位符导致 Qwen3-VL 报错；长回答建议 4096+）",
-    )
-    p.add_argument(
-        "--lr_scheduler",
-        type=str,
-        choices=["constant", "cosine"],
-        default=None,
-        help="constant=固定 lr；cosine=linear warmup + cosine decay（需安装 transformers）",
-    )
-    p.add_argument(
-        "--warmup_ratio",
-        type=float,
-        default=None,
-        help="cosine 时 warmup 步数占比（与 warmup_steps 二选一，优先 warmup_steps）",
-    )
-    p.add_argument("--warmup_steps", type=int, default=None, help="cosine 时绝对 warmup 步数（覆盖 warmup_ratio）")
+    p.add_argument("--skip_missing_image", action=argparse.BooleanOptionalAction, default=None)
+    p.add_argument("--max_length", type=int, default=None)
+    p.add_argument("--lr_scheduler", type=str, choices=["constant", "cosine"], default=None)
+    p.add_argument("--warmup_ratio", type=float, default=None)
+    p.add_argument("--warmup_steps", type=int, default=None)
     p = deepspeed.add_config_arguments(p)
     return p
 
@@ -200,7 +124,6 @@ def build_parser() -> argparse.ArgumentParser:
 def parse_args() -> argparse.Namespace:
     p = build_parser()
     args = p.parse_args()
-
     y = load_yaml(args.config) if args.config else {}
 
     def pick(key: str, fallback):
@@ -228,56 +151,48 @@ def parse_args() -> argparse.Namespace:
         args.bf16 = bool(y.get("bf16", False))
     args.out_dir = pick("out_dir", "")
     args.deepspeed_config = pick("deepspeed_config", None)
-
     if not args.train_jsonl:
         p.error("必须提供 --train_jsonl 或在 YAML 中设置 train_jsonl")
-
     args.train_jsonl = str(Path(args.train_jsonl).expanduser())
     if args.teacher_topk_jsonl:
         args.teacher_topk_jsonl = str(Path(args.teacher_topk_jsonl).expanduser())
     if args.out_dir:
         args.out_dir = str(Path(args.out_dir).expanduser())
     if args.deepspeed_config:
-        args.deepspeed_config = str(Path(args.deepspeed_config).expanduser())
-
+        ds_p = Path(args.deepspeed_config).expanduser()
+        if not ds_p.is_absolute():
+            ds_p = (ROOT / ds_p).resolve()
+        args.deepspeed_config = str(ds_p)
     args.save_every = pick("save_every", 500)
     args.seed = pick("seed", 42)
     args.resume_adapter = pick("resume_adapter", None)
     if args.resume_adapter:
         args.resume_adapter = str(Path(args.resume_adapter).expanduser())
-
     args.input_format = pick("input_format", "chat")
     args.teacher_target = pick("teacher_target", "answer_only")
     args.min_confidence = pick("min_confidence", 0)
     if args.skip_missing_image is None:
         args.skip_missing_image = bool(y.get("skip_missing_image", True))
-
     args.max_length = pick("max_length", 4096)
-
     args.lr_scheduler = pick("lr_scheduler", "constant")
     args.warmup_ratio = pick("warmup_ratio", 0.03)
     args.warmup_steps = pick("warmup_steps", None)
-
     if args.variant in ("B", "BC") and args.input_format != "teacher_responses":
-        p.error("Variant B / BC 需要 --input_format teacher_responses（含 response 中的 trace/answer）")
-
+        p.error("Variant B / BC 需要 --input_format teacher_responses")
     return args
 
 
 def main() -> None:
     args = parse_args()
-
     rows = [
         json.loads(l)
         for l in Path(args.train_jsonl).read_text(encoding="utf-8").splitlines()
         if l.strip()
     ]
-
     use_ds = bool(args.deepspeed_config)
     world_size = int(os.environ.get("WORLD_SIZE", "1"))
     rank = int(os.environ.get("RANK", "0"))
     local_rank = args.local_rank if args.local_rank >= 0 else int(os.environ.get("LOCAL_RANK", "0"))
-
     ga = _read_gradient_accumulation_steps(Path(args.deepspeed_config) if args.deepspeed_config else None)
     ws_sched = world_size if use_ds else 1
     num_training_steps = _estimate_optimizer_steps(
@@ -325,6 +240,7 @@ def main() -> None:
             json.dumps(resolved, indent=2, ensure_ascii=False, default=str),
             encoding="utf-8",
         )
+
     topk_map = load_topk_map(Path(args.teacher_topk_jsonl)) if args.variant in ("C", "BC") else {}
 
     use_bf16 = bool(args.bf16) and torch.cuda.is_available() and torch.cuda.is_bf16_supported()
@@ -345,7 +261,7 @@ def main() -> None:
 
     if args.resume_adapter:
         if args.lora_r == 0:
-            raise SystemExit("全参数模式下请使用 HuggingFace 全量 checkpoint 恢复，勿用 --resume_adapter（LoRA）")
+            raise SystemExit("全参数模式请使用 HF checkpoint 恢复，勿用 --resume_adapter")
         model = PeftModel.from_pretrained(base, args.resume_adapter, is_trainable=True)
         if rank == 0:
             print(f"Resumed LoRA from {args.resume_adapter}")
@@ -358,8 +274,8 @@ def main() -> None:
             print(f"Full finetune: {n} trainable params")
     else:
         lora_config = LoraConfig(
-            r=args.lora_r,
-            lora_alpha=args.lora_alpha,
+            r=int(args.lora_r),
+            lora_alpha=int(args.lora_alpha),
             lora_dropout=0.05,
             bias="none",
             task_type="CAUSAL_LM",
@@ -374,39 +290,43 @@ def main() -> None:
             ],
         )
         model = get_peft_model(base, lora_config)
-    if rank == 0 and args.lora_r != 0:
-        model.print_trainable_parameters()
+        if rank == 0:
+            model.print_trainable_parameters()
 
     params = [p for p in model.parameters() if p.requires_grad]
-    opt = optim.AdamW(params, lr=args.lr)
-
+    optimizer = optim.AdamW(params, lr=float(args.lr))
     lr_sched = None
-    if args.lr_scheduler == "cosine":
+    if args.lr_scheduler == "cosine" and num_training_steps > 0:
         lr_sched = get_cosine_schedule_with_warmup(
-            opt,
+            optimizer,
             num_warmup_steps=num_warmup_steps,
             num_training_steps=num_training_steps,
         )
 
-    model_engine = None
     if use_ds:
-        ds_cfg = _load_ds_config_json(Path(args.deepspeed_config), world_size)
-        ds_args = _strip_deepspeed_cli_for_init(args)
-        model_engine, opt, _, lr_sched_ds = deepspeed.initialize(
-            args=ds_args,
-            model=model,
-            optimizer=opt,
-            model_parameters=params,
-            lr_scheduler=lr_sched,
-            config=ds_cfg,
-        )
+        # 配置由 deepspeed 启动器从 --deepspeed_config 注入 args，勿再传 config= 给 initialize
+        ds_kw: dict = {
+            "args": args,
+            "model": model,
+            "optimizer": optimizer,
+            "model_parameters": params,
+        }
+        if lr_sched is not None:
+            ds_kw["lr_scheduler"] = lr_sched
+        model_engine, optimizer, _, lr_sched = deepspeed.initialize(**ds_kw)
         forward_mod = model_engine
-        lr_sched = lr_sched_ds
     else:
+        model_engine = None
+        if device.type == "cuda":
+            model = model.to(device)
         forward_mod = model
+        opt = optimizer
+        lr_sched_native = lr_sched
 
     collator = Qwen3VLChatCollator(
-        processor=processor, max_length=int(args.max_length), max_image_side=448
+        processor=processor,
+        max_length=int(args.max_length),
+        max_image_side=448,
     )
 
     global_step = 0
@@ -430,7 +350,6 @@ def main() -> None:
         pbar = tqdm(my_rows, desc="train", disable=(use_ds and rank != 0))
         for obj in pbar:
             sid = obj.get("id", "")
-
             if args.input_format == "teacher_responses":
                 user_txt, asst_a, img, meta = row_teacher_responses(
                     obj,
@@ -463,10 +382,10 @@ def main() -> None:
                         assistant_text=asst_a,
                         image_path=img,
                     )
-            except FileNotFoundError as e:
+            except FileNotFoundError:
                 if args.skip_missing_image:
                     continue
-                raise e
+                raise
 
             assistant_ok = args.variant in ("B", "BC") and bool(ans.strip())
             if args.variant in ("A", "C") and not asst_a:
@@ -476,6 +395,7 @@ def main() -> None:
 
             labels = batch["labels"]
             kwargs = forward_kwargs(batch, device)
+
             if not use_ds:
                 opt.zero_grad(set_to_none=True)
 
@@ -483,7 +403,8 @@ def main() -> None:
                 out = forward_mod(**kwargs)
             else:
                 with torch.autocast(
-                    device_type=device.type, dtype=torch.bfloat16 if use_bf16 else torch.float32
+                    device_type=device.type,
+                    dtype=torch.bfloat16 if use_bf16 else torch.float32,
                 ):
                     out = forward_mod(**kwargs)
 
@@ -548,8 +469,8 @@ def main() -> None:
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(params, 1.0)
                 opt.step()
-                if lr_sched is not None:
-                    lr_sched.step()
+                if lr_sched_native is not None:
+                    lr_sched_native.step()
 
             rec = {
                 "step": global_step,
@@ -575,7 +496,7 @@ def main() -> None:
                 return True
         return False
 
-    for ep in range(args.num_epochs):
+    for _ep in range(args.num_epochs):
         if one_epoch():
             break
 

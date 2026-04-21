@@ -1,0 +1,30 @@
+# 变体 B（CoT）：λ1·CE(answer) + λ2·CE(trace)
+# 必须使用含本机可访问图像路径的 jsonl（见 data/clean_train_*_*.local.jsonl）。
+train_jsonl: "data/clean_train_teacher_cot_20260417_164544.local.jsonl"
+out_dir: "runs/variant_b_teacher_cot_lora_fast5h"
+deepspeed_config: "configs/deepspeed_zero2_bf16_c_task.json"
+
+variant: B
+input_format: teacher_responses
+teacher_target: answer_only
+min_confidence: 0
+skip_missing_image: true
+student_model_id: "Qwen/Qwen3-VL-2B-Instruct"
+
+lam1: 0.6
+lam2: 0.4
+lam3: 0.0
+
+lr: 2.0e-5
+lr_scheduler: cosine
+warmup_ratio: 0.03
+
+bf16: true
+num_epochs: 1
+max_steps: 2400
+max_length: 4096
+save_every: 500
+seed: 42
+
+lora_r: 64
+lora_alpha: 128
