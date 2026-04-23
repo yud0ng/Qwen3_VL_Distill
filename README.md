@@ -144,3 +144,40 @@
 | **conf=2** | 37 | 0.3% |
 | **conf=1** | 9 | 0.1% |
 | **conf=missing**| 22 | 0.2% |
+
+Total written     : 20000
+
+── Data split ──────────────────────────────────
+Spatial (COCO)  : 10000
+General (LLaVA) : 10000
+
+── Distillation signals ────────────────────────
+With CoT        : 10000  (pass filter: 6503)
+With top-k logit: 10000  (k=20)
+With hidden     : 10000  (layer=-1)
+
+── CoT rejection (this run) ────────────────────
+Rejected total  : 0
+too short     : 0
+low density   : 0
+no pivot word : 0
+
+── Confidence distribution ─────────────────────
+conf=5          16609  (83.0%)
+conf=4           2947  (14.7%)
+conf=3            110  (0.5%)
+conf=2             23  (0.1%)
+conf=1              8  (0.0%)
+conf=missing      303  (1.5%)
+
+# conf>=4 : 19556 (97.8%)
+
+┌─────────────────────────────────────────────────────────┐
+│  Downstream λ switches ([train.py](http://train.py/)):                      │
+│                                                         │
+│  Variant A  SFT only   : λ_ce=1.0                       │
+│  Variant B  + CoT      : λ_ce=0.6  λ_cot=0.4           │
+│  Variant C  + KL/feat  : λ_ce=0.5  λ_kl=0.3  λ_f=0.2  │
+│  Variant B+C full      : λ_ce=0.4  λ_cot=0.25          │
+│                          λ_kl=0.2  λ_f=0.15            │
+└─────────────────────────────────────────────────────────┘
