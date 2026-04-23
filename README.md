@@ -53,7 +53,7 @@
 | Benchmark | Metric | 32B Teacher | 2B Original | 2B Variant A | 2B Variant A+ | 2B Variant A (LoRA r=64) | Recovery % |
 |-----------|--------|-------------|-------------|--------------|---------------|---------------------------|------------|
 | MME       | Total Score | 2476.51 | 1910.64 |  |  | 1854.75 | - |
-| MMStar    | Average Acc | 70.74%  | 47.56%  | - | - | 49.92 | - |
+| MMStar    | Average Acc | 70.74%  | 47.56%  | - | - | 49.92% | - |
 | CV-Bench  | Average Acc | 88.17%  | 68.09%  | 51% | 68% | 75% | - |
 
 > Recovery % = (Distilled − Original) / (Teacher − Original) × 100
