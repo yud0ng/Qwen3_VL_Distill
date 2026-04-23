@@ -50,11 +50,11 @@
 
 ## Summary Table (for results template)
 
-| Benchmark | Metric | 32B Teacher | 2B Original | 2B Variant A | 2B Variant A+ | 2B Variant A (LoRA r=64) | Recovery % |
-|-----------|--------|-------------|-------------|--------------|---------------|---------------------------|------------|
-| MME       | Total Score | 2476.51 | 1630.64 | 1259.29 |  | 1854.75 | - |
-| MMStar    | Average Acc | 70.74%  | 45.56%  | 33.24% | - | 49.92% | - |
-| CV-Bench  | Average Acc | 88.17%  | 68.09%  | 51% | 68% | 75% | - |
+| Benchmark | Metric | 32B Teacher | 2B Original | 2B Variant A | 2B Variant A+ | 2B Variant A+ (LoRA r=64) | 2B Variant B (LoRA r=64) | 2B Variant C (LoRA r=64) | 
+|-----------|--------|-------------|-------------|--------------|---------------|---------------------------|------------|------------|
+| MME       | Total Score | 2476.51 | 1630.64 | 1259.29 | 1570.510 | 1854.75 | 1977.07 | |
+| MMStar    | Average Acc | 70.74%  | 45.56%  | 33.24% | 32.21% | 49.92% | 51.95% | |
+| CV-Bench  | Average Acc | 88.17%  | 68.09%  | 51% | 44.39% | 75.4% |  0.4685 ||
 
 > Recovery % = (Distilled − Original) / (Teacher − Original) × 100
 
