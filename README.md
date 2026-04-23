@@ -50,11 +50,11 @@
 
 ## Summary Table (for results template)
 
-| Benchmark | Metric | 32B Teacher | 2B Original | 2B Distilled | Recovery% |
+| Benchmark | Metric | 32B Teacher | 2B Original | 2B Variant A| Recovery% |
 |-----------|--------|-------------|-------------|--------------|-----------|
-| MME | Total Score | 2476.51 | 1910.64 | - | - |
+| MME | Total Score | 2476.51 | 1910.64 |  | - |
 | MMStar | Average Acc | 70.74% | 47.56% | - | - |
-| CV-Bench | Average Acc | 88.17% | 73.09% | - | - |
+| CV-Bench | Average Acc | 88.17% | 68.09% | - | - |
 
 > Recovery% = (Distilled − Original) / (Teacher − Original) × 100
 
