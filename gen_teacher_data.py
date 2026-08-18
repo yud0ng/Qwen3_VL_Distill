@@ -3,13 +3,13 @@ gen_teacher_data.py
 ===================
 Batch inference with Qwen3-VL-32B (vLLM offline) to generate ~50k teacher responses.
 
-Dataset layout assumed on PSC:
-  COCO images   : /ocean/projects/cis220039p/yluo22/datasets/coco/train2014/
-  COCO annots   : /ocean/projects/cis220039p/yluo22/datasets/coco/annotations/instances_train2014.json
-  LLaVA JSON    : /ocean/projects/cis220039p/yluo22/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json
+Default dataset layout under QWEN3_VL_DATA_ROOT:
+  COCO images   : datasets/coco/train2014/
+  COCO annots   : datasets/coco/annotations/instances_train2014.json
+  LLaVA JSON    : datasets/LLaVA-Instruct-150K/llava_instruct_150k.json
   LLaVA images  : LLaVA reuses COCO images -> same coco/train2014/ directory
-  Model         : /ocean/projects/cis220039p/yluo22/models/qwen3-vl-32b
-  Output        : /ocean/projects/cis220039p/yluo22/data/teacher_responses.jsonl
+  Model         : models/qwen3-vl-32b
+  Output        : data/teacher_responses.jsonl
 
 Data split:
   25k spatial reasoning  <- COCO train2014 (bbox-grounded question generation)
@@ -38,12 +38,12 @@ Streaming flush:
 
 Usage:
   python gen_teacher_data.py \
-      --model_path       /ocean/projects/cis220039p/yluo22/models/qwen3-vl-32b \
-      --coco_dir         /ocean/projects/cis220039p/yluo22/datasets/coco/train2014 \
-      --coco_ann         /ocean/projects/cis220039p/yluo22/datasets/coco/annotations/instances_train2014.json \
-      --llava_json       /ocean/projects/cis220039p/yluo22/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json \
-      --llava_image_dir  /ocean/projects/cis220039p/yluo22/datasets/coco/train2014 \
-      --output           /ocean/projects/cis220039p/yluo22/data/teacher_responses.jsonl \
+      --model_path       /path/to/qwen3-vl-32b \
+      --coco_dir         /path/to/coco/train2014 \
+      --coco_ann         /path/to/coco/annotations/instances_train2014.json \
+      --llava_json       /path/to/llava_instruct_150k.json \
+      --llava_image_dir  /path/to/coco/train2014 \
+      --output           /path/to/teacher_responses.jsonl \
       --total            50000 \
       --tp               4 \
       --batch_size       256
@@ -347,22 +347,22 @@ def parse_confidence(response: str) -> int | None:
 # ── Argument parsing ──────────────────────────────────────────────
 
 def parse_args():
-    # 本仓库数据目录约定（与 teacher_responses.jsonl 内 image 路径一致）
-    _REPO = "/sgl-workspace/distill/distill"
-    _OCEAN_BASE = "/ocean/projects/cis220039p/yluo22"
+    data_root = Path(
+        os.environ.get("QWEN3_VL_DATA_ROOT", Path(__file__).resolve().parent)
+    )
     p = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    p.add_argument("--model_path",      default=f"{_OCEAN_BASE}/models/qwen3-vl-32b")
-    p.add_argument("--coco_dir",        default=f"{_REPO}/datasets/coco/train2014",
+    p.add_argument("--model_path",      default=f"{data_root}/models/qwen3-vl-32b")
+    p.add_argument("--coco_dir",        default=f"{data_root}/datasets/coco/train2014",
                    help="COCO train2014 images directory")
-    p.add_argument("--coco_ann",        default=f"{_REPO}/datasets/coco/annotations/instances_train2014.json",
+    p.add_argument("--coco_ann",        default=f"{data_root}/datasets/coco/annotations/instances_train2014.json",
                    help="COCO instances_train2014.json")
-    p.add_argument("--llava_json",      default=f"{_REPO}/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json",
-                   help="LLaVA JSON（若未放在仓库 datasets 下请显式传路径）")
-    p.add_argument("--llava_image_dir", default=f"{_REPO}/datasets/coco/train2014",
+    p.add_argument("--llava_json",      default=f"{data_root}/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json",
+                   help="LLaVA-Instruct-150K JSON path")
+    p.add_argument("--llava_image_dir", default=f"{data_root}/datasets/coco/train2014",
                    help="LLaVA image directory (defaults to coco/train2014 since LLaVA reuses COCO images)")
-    p.add_argument("--output",          default=f"{_REPO}/teacher_responses.jsonl")
+    p.add_argument("--output",          default=f"{data_root}/data/teacher_responses.jsonl")
     p.add_argument("--total",      type=int, default=50_000)
     p.add_argument("--resume",     action="store_true",
                    help="Resume from existing output file, skipping already-processed images")
@@ -427,9 +427,10 @@ def main():
         max_num_seqs=args.batch_size,
         mm_processor_kwargs={"min_pixels": 28*28, "max_pixels": 1280*28*28},
         limit_mm_per_prompt={"image": 1},
-        gpu_memory_utilization=0.90,
+        gpu_memory_utilization=0.85,
         dtype="bfloat16",
         trust_remote_code=True,
+        disable_custom_all_reduce=True,
     )
     sampling_params = SamplingParams(
         temperature=0.7, top_p=0.9,
@@ -462,13 +463,24 @@ def main():
     print(f"\nStarting inference  total={len(all_samples)}  batch={args.batch_size}")
     pbar = tqdm(total=len(all_samples), unit="samples", dynamic_ncols=True)
 
+    consecutive_failures = 0
     for i in range(0, len(all_samples), args.batch_size):
         batch = all_samples[i : i + args.batch_size]
         try:
             results = run_batch(llm, batch, sampling_params)
+            consecutive_failures = 0
         except Exception as e:
+            consecutive_failures += 1
             print(f"\n[WARN] Batch {i}-{i+len(batch)} failed: {e}", file=sys.stderr)
             pbar.update(len(batch))
+            if consecutive_failures >= 3:
+                print(
+                    f"\n[FATAL] Engine stopped after {consecutive_failures} "
+                    f"consecutive failures. Re-run with --resume "
+                    f"(written={written}).",
+                    file=sys.stderr,
+                )
+                break
             continue
 
         for item in results:
