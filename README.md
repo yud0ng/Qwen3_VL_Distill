@@ -1,11 +1,24 @@
-# Qwen3-VL Spatial Knowledge Distillation
+<h1 align="center">Qwen3-VL Spatial Knowledge Distillation</h1>
 
-Distilling spatial reasoning from **Qwen3-VL-32B-Instruct** into a
-**Qwen3-VL-2B-Instruct** student for memory-constrained and edge deployment.
+<p align="center">
+  Distilling spatial reasoning from Qwen3-VL-32B into a compact 2B student for edge deployment.
+</p>
 
-This repository contains the teacher-data pipeline, four configurable
-distillation objectives, LoRA/full-finetuning training code, and evaluation on
-MME, MMStar, and CV-Bench.
+<p align="center">
+  <a href="https://github.com/yud0ng/Qwen3_VL_Distill/actions/workflows/core-validation.yml"><img alt="Core validation" src="https://img.shields.io/github/actions/workflow/status/yud0ng/Qwen3_VL_Distill/core-validation.yml?branch=main&amp;label=core%20validation&amp;logo=github"></a>
+  <img alt="Python 3.10+" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&amp;logoColor=white">
+  <a href="https://pytorch.org/"><img alt="PyTorch 2.1+" src="https://img.shields.io/badge/PyTorch-2.1%2B-EE4C2C?logo=pytorch&amp;logoColor=white"></a>
+  <a href="https://huggingface.co/docs/transformers"><img alt="Transformers 4.57+" src="https://img.shields.io/badge/Transformers-4.57%2B-FFD21E"></a>
+  <a href="https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct"><img alt="Qwen3-VL" src="https://img.shields.io/badge/Model-Qwen3--VL-6C5CE7"></a>
+  <a href="https://huggingface.co/docs/peft"><img alt="LoRA rank 64" src="https://img.shields.io/badge/Training-LoRA%20r%3D64-0FA958"></a>
+</p>
+
+## About
+
+An end-to-end research pipeline for transferring spatial reasoning from
+**Qwen3-VL-32B-Instruct** to **Qwen3-VL-2B-Instruct**, covering teacher-data
+generation, response/CoT/logit distillation, LoRA training, and reproducible
+evaluation on MME, MMStar, and CV-Bench.
 
 ## Highlights
 
