@@ -1,6 +1,6 @@
 """
-gen_data_all.py
-===============
+gen_all.py
+==========
 Unified teacher data generation: CoT text + top-k logits + hidden states.
 
 One script, two phases, all distillation signals in one JSONL.
@@ -33,16 +33,16 @@ Output schema (one JSON per line):
 
 Usage:
   # Full run
-  python gen_data_all.py --total 50000 --tp 4 --batch_size 16 --logit_k 20
+  python gen_all.py --total 50000 --tp 4 --batch_size 16 --logit_k 20
 
   # Text only (skip logit/hidden extraction)
-  python gen_data_all.py --total 50000 --tp 4 --batch_size 16 --skip_forward
+  python gen_all.py --total 50000 --tp 4 --batch_size 16 --skip_forward
 
   # Quick test
-  python gen_data_all.py --total 100 --tp 2 --batch_size 8 --skip_forward
+  python gen_all.py --total 100 --tp 2 --batch_size 8 --skip_forward
 
   # Resume after crash
-  python gen_data_all.py --total 50000 --tp 4 --batch_size 16 --logit_k 20 --resume
+  python gen_all.py --total 50000 --tp 4 --batch_size 16 --logit_k 20 --resume
 """
 
 import argparse
@@ -70,8 +70,8 @@ from gen_teacher_data import (
     build_prompt as _base_build_prompt,
 )
 
-# ── Reuse CoT quality filter from gen_cot_data.py ─────────────────
-from gen_cot_data import is_cot_quality
+# ── Dependency-free CoT quality filter ────────────────────────────
+from cot_quality import is_cot_quality
 
 # ── Constants ──────────────────────────────────────────────────────
 FLUSH_INTERVAL = 500
@@ -273,15 +273,17 @@ def run_batch_general(llm, batch, sampling_params):
 # ── Args ──────────────────────────────────────────────────────────
 
 def parse_args():
-    BASE = "/ocean/projects/cis220039p/yluo22"
+    data_root = Path(
+        os.environ.get("QWEN3_VL_DATA_ROOT", Path(__file__).resolve().parent)
+    )
     p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    p.add_argument("--model_path",        default=f"{BASE}/models/qwen3-vl-32b")
-    p.add_argument("--coco_dir",          default=f"{BASE}/datasets/coco/train2014")
-    p.add_argument("--coco_ann",          default=f"{BASE}/datasets/coco/annotations/instances_train2014.json")
-    p.add_argument("--llava_json",        default=f"{BASE}/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json")
-    p.add_argument("--llava_image_dir",   default=f"{BASE}/datasets/coco/train2014")
-    p.add_argument("--output",            default=f"{BASE}/data/teacher_all.jsonl")
+    p.add_argument("--model_path",        default=f"{data_root}/models/qwen3-vl-32b")
+    p.add_argument("--coco_dir",          default=f"{data_root}/datasets/coco/train2014")
+    p.add_argument("--coco_ann",          default=f"{data_root}/datasets/coco/annotations/instances_train2014.json")
+    p.add_argument("--llava_json",        default=f"{data_root}/datasets/LLaVA-Instruct-150K/llava_instruct_150k.json")
+    p.add_argument("--llava_image_dir",   default=f"{data_root}/datasets/coco/train2014")
+    p.add_argument("--output",            default=f"{data_root}/data/teacher_all.jsonl")
 
     p.add_argument("--total",             type=int,   default=50_000)
     p.add_argument("--seed",              type=int,   default=42)
